@@ -23,6 +23,7 @@ CREATE TABLE `#__polartour_tournament` (
   `tornamenttype` int(11) NOT NULL DEFAULT '0' COMMENT '0=Unknown, 1=Konrad, 2=Monrad, 3=Swiss, 4=Berger',
   `startdate` date NOT NULL DEFAULT '0000-00-00',
   `enddate` date NOT NULL DEFAULT '0000-00-00',
+  `pgnfile` varchar(255) NOT NULL,
   `trashed` int(11) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `comment` text NOT NULL,
@@ -44,8 +45,8 @@ CREATE TABLE `#__polartour_player` (
   `comment` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `tournamentid` (`tournamentid`),
-  KEY `lastname` (`lastname`),
-  KEY `firstname` (`firstname`)
+  KEY `lastname` (`lastname`(255)),
+  KEY `firstname` (`firstname`(255))
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE `#__polartour_result` (
@@ -55,10 +56,11 @@ CREATE TABLE `#__polartour_result` (
   `blackid` int(11) NOT NULL DEFAULT '0',
   `round` int(11) NOT NULL DEFAULT '0',
   `result` int(11) NOT NULL DEFAULT '0' COMMENT '0=ongoing, 1=draw, 2=white win, 3=blackwin, 4=unplayed draw, 5=unplayed white win, 6=unplayed black win',
+  `game` int(11) NOT NULL DEFAULT '0',
   `trashed` int(11) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `comment` text NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `firstname` (`firstname`).
-  KEY `lastname` (`lastname`)
+  KEY `tournamentid` (`tournamentid`),
+  KEY `round` (`round`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
