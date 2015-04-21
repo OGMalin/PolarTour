@@ -30,20 +30,8 @@
 
 	<files folder="site">
 		<filename>polartour.php</filename>
-		<filename>controller.php</filename>
-		<folder>controllers</folder>
-		<folder>helpers</folder>
 		<folder>language</folder>
-		<folder>models</folder>
-		<folder>views</folder>
 	</files>
-	
-	<media destination="com_polartour" folder="media">
-		<folder>css</folder>
-		<folder>fonts</folder>
-		<folder>images</folder>
-		<folder>js</folder>
-	</media>
 	
 	<administration>
 		<menu>COM_POLARTOUR</menu>
@@ -51,13 +39,11 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
 			<filename>polartour.php</filename>
 			<folder>helpers</folder>
 			<folder>language</folder>
 			<folder>models</folder>
 			<folder>sql</folder>
-			<folder>tables</folder>
 			<folder>views</folder>
 		</files>
 	</administration>
