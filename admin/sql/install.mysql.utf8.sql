@@ -25,11 +25,13 @@ CREATE TABLE `#__polartour_tournament` (
   `startdate` date NOT NULL DEFAULT '0000-00-00',
   `enddate` date NOT NULL DEFAULT '0000-00-00',
   `pgnfile` varchar(255) NOT NULL,
+  `updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `comment` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `event` (`event`),
   KEY `startdate` (`startdate`),  
   KEY `enddate` (`enddate`)  
+  KEY `updated` (`updated`)  
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE `#__polartour_player` (

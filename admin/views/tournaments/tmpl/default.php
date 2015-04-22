@@ -27,8 +27,8 @@ $listDirn = '';
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="nowrap has-context">
-							<a href="<?php echo JRoute::_('index.php?option=com_polarbook&task=polarbook.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->name); ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_polartour&task=polartour.edit&id='.(int) $item->id); ?>">
+								<?php echo $this->escape($item->event); ?>
 							</a>
 						</td>
 					</tr>

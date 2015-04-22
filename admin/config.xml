@@ -3,6 +3,13 @@
 	<fieldset name="component"
 		label="COM_POLARTOUR_COMPONENT_LABEL"
 		description="COM_POLARTOUR_COMPONENT_DESC">
+		<field 
+			description="COM_POLARTOUR_PGNVIEWER_DESC" 
+			label="COM_POLARTOUR_PGNVIEWER_LABEL"
+			name="pgnviewer" 
+			default="http://norbase.sjakk.biz/gameview.php?inter=8" 
+			type="text" 
+			size="255"/>
 	</fieldset>
 	<fieldset
 		name="permissions"

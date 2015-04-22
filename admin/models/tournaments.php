@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Polarbook for Joomla 3.x
+ * @package     Polartour for Joomla 3.x
  * @version     1.0.0
  * @author      Odd Gunnar Malin
  * @copyright   Copyright 2014. All rights reserved.
@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class PolartourModelBooks extends JModelList
+class PolartourModelTournaments extends JModelList
 {
 	public function __construct($config = array())
 	{
@@ -17,18 +17,9 @@ class PolartourModelBooks extends JModelList
 		{
 			$config['filter_fields'] = array(
 					'id', 'a.id',
-					'name', 'a.name',
-					'user', 'a.user',
-					'trashed', 'a.trashed',
-					'public', 'a.public',
-					'member', 'a.member',
-					'readuser', 'a.readuser',
-					'writeuser', 'a.writeuser',
-					'created', 'a.created',
-					'comment', 'a.comment'
+					'event', 'a.event'
 			);
 		}
-
 		parent::__construct($config);
 	}
 
@@ -40,10 +31,10 @@ class PolartourModelBooks extends JModelList
 		$query->select(
 				$this->getState(
 						'list.select',
-						'a.id, a.name','a.user','s.public','a.member','a.readuser','a.writeuser','a.created','a.comment'
+						'a.id, a.event'
 				)
 		);
-		$query->from($db->quoteName('#__polartour_tournaments').' AS a');
+		$query->from($db->quoteName('#__polartour_tournament').' AS a');
 
 		return $query;
 	}
