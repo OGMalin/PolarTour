@@ -8,9 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-
 /*
-class PolartourControllerTournaments extends JControllerLegacy
+class PolartourControllerPolartour extends JControllerLegacy
 {
 	public function getModel($name = 'Tournaments', $prefix = 'PolartourModel', $config = array('ignore_request' => true))
 	{
