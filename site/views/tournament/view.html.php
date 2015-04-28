@@ -3,11 +3,13 @@ defined('_JEXEC') or die;
 jimport( 'joomla.html.html' );
 class PolartourViewTournament extends JViewLegacy
 {
-	protected $item;
-
+	protected $tournament;
+	protected $player;
+	protected $result;
+	
 	function display($tpl = null)
 	{
-		$this->items=$this->get('Item');
+//		$this->tournament=$this->get('Tournament');
 		parent::display($tpl);
 	}
 }
