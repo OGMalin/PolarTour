@@ -2,7 +2,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
+//jimport('joomla.application.component.modellist');
 class PolartourModelTournaments extends JModelList
 {
  	public function __construct($config = array())
@@ -28,15 +28,15 @@ class PolartourModelTournaments extends JModelList
  	
  	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('*');
 		$query->from($db->quoteName('#__polartour_tournament') . ' AS a');
 
-		$orderCol	= $this->state->get('list.ordering');
-		$orderDirn	= $this->state->get('list.direction');
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+//		$orderCol	= $this->state->get('list.ordering');
+//		$orderDirn	= $this->state->get('list.direction');
+//		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 		
 		return $query;
 	}
