@@ -6,23 +6,23 @@ require_once './components/com_polartour/helpers/tournament.php';
 jimport( 'joomla.html.html' );
 class PolartourViewTournament extends JViewLegacy
 {
-	protected $tournament;
-	protected $player;
-	protected $result;
 	protected $table;
+	protected $Item;
 	
 	function display($tpl = null)
 	{
-		$this->tournament=$this->get('Tournament');
-		$this->player=$this->get('Player');
-		$this->result=$this->get('Result');
+		$this->Item=$this->get('Item');
 		
+//		echo "<pre>" . var_dump($this->Item) . "</pre>";
 		$tour=new TournamentHelper();
-		$tour->tournament=$this->tournament;
-		$tour->player=$this->player;
-		$tour->result=$this->result;
-		$tour->head=$this->tournament['event'];
-		$this->table=$tour->displayTable(999);
+		if (isset($this->Item["tournament"]["id"]))
+		{
+			$tour->tournament=$this->Item["tournament"];
+			$tour->player=$this->Item["player"];
+			$tour->result=$this->Item["result"];
+			$tour->head=$this->Item["tournament"]['event'];
+			$this->table=$tour->displayTable(999);
+		}
 		parent::display($tpl);
 	}
 }

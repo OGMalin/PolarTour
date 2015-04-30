@@ -3,7 +3,7 @@
 defined('_JEXEC') or die;
 
 //jimport('joomla.application.component.modelitem');
-class PolartourModelTournament extends JModelItem
+class PolartourModelEdit extends JModelItem
 {
 	public $tournament_id;
 	
@@ -20,7 +20,10 @@ class PolartourModelTournament extends JModelItem
 	{
 		$item=array("tournament" => array(), "player" => array(), "result" => array());
 		if ($this->tournament_id==0)
+		{
+			// New tournament, fill in defaults.
 			return $item;
+		}
 		$db=$this->getDbo();
 		
 		$query=$db->getQuery(true);
