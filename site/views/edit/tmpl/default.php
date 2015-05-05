@@ -9,9 +9,9 @@ JHtml::_('bootstrap.framework');
 	<button class="btn"><?php echo JText::_('COM_POLARTOUR_CLOSE') ?></button>
 </div>
 
-<ul class="nav nav-tabs">
-	<li class="active"><a href="#">Turneringsinfo</a></li>
-	<li><a href="#">Spillere</a></li>
-	<li><a href="#">Resultater</a></li>
+<ul id="tournamentmenu" class="nav nav-tabs">
+	<li id="tournamenttab" class="active"><a href="#" onclick="switchTab('tournamenttab');">Turneringsinfo</a></li>
+	<li id="playertab"><a href="#" onclick="switchTab('playertab');return false;">Spillere</a></li>
+	<li id="resulttab"><a href="#" onclick="switchTab('resulttab');return false;">Resultater</a></li>
 </ul>
 <?php echo $this->loadTemplate('modals'); ?>
