@@ -11,10 +11,12 @@ class PolartourViewTournament extends JViewLegacy
 	
 	function display($tpl = null)
 	{
+//		$layout = JFactory::getApplication()->input->getCmd('layout', 'default');
 		$this->Item=$this->get('Item');
 		
 //		echo "<pre>" . var_dump($this->Item) . "</pre>";
 		$tour=new TournamentHelper();
+			
 		if (isset($this->Item["tournament"]["id"]))
 		{
 			$tour->tournament=$this->Item["tournament"];

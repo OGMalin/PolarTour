@@ -44,6 +44,7 @@ class PolartourViewEdit extends JViewLegacy
 		");
 		
 		$this->Item=$this->get('Item');
+		
 		parent::display($tpl);
 	}
 }
