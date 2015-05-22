@@ -21,7 +21,13 @@ class PolartourModelEdit extends JModelItem
 		$item=array("tournament" => array(), "player" => array(), "result" => array());
 		if ($this->tournament_id==0)
 		{
-			// New tournament, fill in defaults.
+			$user=JFactory::getUser();
+			$item['tournament']['id']=0;	
+			$item['tournament']['owner']=$user->id;
+			$item['tournament']['event']='';
+			$item['tournament']['site']='';	
+			$item['tournament']['organizer']='';	
+			$item['tournament']['rounds']=0;	
 			return $item;
 		}
 		$db=$this->getDbo();

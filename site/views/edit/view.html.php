@@ -44,7 +44,11 @@ class PolartourViewEdit extends JViewLegacy
 		");
 		
 		$this->Item=$this->get('Item');
-		
+		if ($this->Item['tournament']['owner']=='0')
+			$user=JFactory::getUser();
+		else
+			$user=JFactory::getUser($this->Item['tournament']['owner']);
+		$this->Item['tournament']['owner']=$user->name;
 		parent::display($tpl);
 	}
 }
