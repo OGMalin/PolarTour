@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class PolartourControllerTournament extends JControllerForm
+class PolartourControllerTournament extends JControllerLegacy
 {
 /*
 	public function getModel($name = 'Tournaments', $prefix = 'PolartourModel', $config = array('ignore_request' => true))
@@ -18,4 +18,18 @@ class PolartourControllerTournament extends JControllerForm
 		return $model;
 	}
 	*/
+	
+	public function save()
+	{
+//		$model=$this->getModel('Edit');
+		$app=JFactory::getApplication();
+		$doc = JFactory::getDocument();
+		$this->input = $app->input;
+		var_dump($this->input);
+		exit;
+//		$id=$this->input->getInt('id',0);
+//		$white=$this->input->getInt('white',0);
+//		$black=$this->input->getInt('black',0);
+//		$level=$this->input->getInt('level',1);
+	}
 }
