@@ -312,12 +312,22 @@ class TournamentHelper
 				}
 			}
 		}
+
+		// Calc Tiebreak points
+		$this->calcTiebreak($this->tournament['tiebreak1'],0,$round);
+		$this->calcTiebreak($this->tournament['tiebreak2'],1,$round);
+		$this->calcTiebreak($this->tournament['tiebreak3'],2,$round);
+		$this->calcTiebreak($this->tournament['tiebreak4'],3,$round);
+		$this->calcTiebreak($this->tournament['tiebreak5'],4,$round);
+		
 		usort($this->score, 'ScoreCompare');
 		
 		$pl=1;
 		$skip=1;
 		$sc=$tb1=$tb2=$tb3=$tb4=$tb5=0;
 //		echo "<pre>";var_dump($this->score);echo "</pre>";
+
+		// Sett plassering
 		for ($i=0;$i<count($this->score);$i++)
 		{
 			if ($i>0)
@@ -346,4 +356,85 @@ class TournamentHelper
 		}
 //		echo "<pre>";var_dump($this->score);echo "</pre>";
 	}
+
+	protected function _calcTiebreak($rule, $tb, $round)
+	{
+		switch ($rule)
+		{
+			case 1:
+				$this->_calcAverageRating($tb, $round);
+				break;
+			case 2:
+				$this->_calcAverageRatingCut($tb, $round);
+				break;
+			case 3:
+				$this->_calcBuchholz($tb, $round);
+				break;
+			case 4:
+				$this->_calcMedianBuchholz($tb, $round);
+				break;
+			case 5:
+				$this->_calcMedianBuchholz2($tb, $round);
+				break;
+			case 6:
+				$this->_calcBuchholzCut1($tb, $round);
+				break;
+			case 7:
+				$this->_calcBuchholzCut2($tb, $round);
+				break;
+			case 8:
+				$this->_calcDirectEncounter($tb, $round);
+				break;
+			case 9:
+				$this->_calcSonnebornBerger($tb, $round);
+		}
+		
+	}
+
+	
+	protected function _calcAverageRating($tb, $round)
+	{
+	
+	}
+	
+	protected function _calcAverageRatingCut($tb, $round)
+	{
+	
+	}
+	
+	protected function _calcBuchholz($tb, $round)
+	{
+	
+	}
+	
+	protected function _calcMedianBuchholz($tb, $round)
+	{
+	
+	}
+	
+	protected function _calcMedianBuchholz2($tb, $round)
+	{
+	
+	}
+	
+	protected function _calcBuchholzCut1($tb, $round)
+	{
+	
+	}
+
+	protected function _calcBuchholzCut2($tb, $round)
+	{
+	
+	}
+
+	protected function _calcDirectEncounter($tb, $round)
+	{
+	
+	}
+
+	protected function _calcSonnebornBerger($tb, $round)
+	{
+	
+	}
+	
 }
