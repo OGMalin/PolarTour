@@ -12,6 +12,7 @@ class PolartourViewTournaments extends JViewLegacy
 	
 	public function display($tpl=null)
 	{
+		// Henter opp data fra /administrator/components/com_polartour/models/tournaments.php
 		$this->items = $this->get('Items');
 		
 		if (count($errors = $this->get('Errors')))
@@ -26,9 +27,12 @@ class PolartourViewTournaments extends JViewLegacy
 	protected function addToolbar()
 	{
 		$canDo = PolartourHelper::getActions();
+		$bar = JToolBar::getInstance('toolbar');
 		
 		// Add the admin view title
 		JToolbarHelper::title(JText::_('COM_POLARTOUR_POLARTOUR_TITLE'));
+		
+		JToolbarHelper::addNew('polartour.add');
 		
 		if ($canDo->get('core.edit'))
 		{

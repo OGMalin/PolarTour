@@ -4,33 +4,138 @@
 		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" class="readonly"
 			description="JGLOBAL_FIELD_ID_DESC" />
-		<field name="name" type="text" class="inputbox" size="40" 
-			label="COM_POLARTOUR_TOURNAMENT_FIELD_NAME"
-			description="COM_POLARTOUR_TOURNAMENT_FIELD_NAME_DESC" />
-		<field name="user" type="user" 
-			label="COM_POLARTOUR_TOURNAMENTK_FIELD_USER"
-			description="COM_POLARTOUR_TOURNAMENT_FIELD_USER_DESC" />
-		<field name="trashed" type="text" class="inputbox" size="40" 
-			label="COM_POLARTOUR_TOURNAMENT_FIELD_TRASHED"
-			description="COM_POLARTOUR_TOURNAMENT_FIELD_TRASHED_DESC" />
-		<field name="public" type="text" class="inputbox" size="40" 
-			label="COM_POLARTOUR_TOURNAMENT_FIELD_PUBLIC"
-			description="COM_POLARTOUR_TOURNAMENT_FIELD_PUBLIC_DESC" />
-		<field name="member" type="text" class="inputbox" size="40" 
-			label="COM_POLARTOUR_TOURNAMENT_FIELD_MEMBER"
-			description="COM_POLARTOUR_TOURNAMENT_FIELD_MEMBER_DESC" />
-		<field name="readuser" type="text" class="inputbox" size="40" 
-			label="COM_POLARTOUR_TOURNAMENT_FIELD_READUSER"
-			description="COM_POLARTOUR_TOURNAMENT_FIELD_READUSER_DESC" />
-		<field name="writeuser" type="text" class="inputbox" size="40" 
-			label="COM_POLARTOUR_TOURNAMENT_FIELD_WRITEUSER"
-			description="COM_POLARTOUR_TOURNAMENT_FIELD_WRITEUSER_DESC" />
-		<field name="created" type="calendar" class="inputbox" size="22"
+		<field name="event" type="text" class="inputbox" size="40" 
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_EVENT"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_EVENT_DESC" />
+		<field name="site" type="text" class="inputbox" size="40" 
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_SITE"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_SITE_DESC" />
+		<field name="organizer" type="text" class="inputbox" size="40" 
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_ORGANIZER"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_ORGANIZER_DESC" />
+		<field name="arbiter" type="text" class="inputbox" size="40" 
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_ARBITER"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_ARBITER_DESC" />
+		<field name="owner" type="user" 
+			label="COM_POLARTOUR_TOURNAMENTK_FIELD_OWNER"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_OWNER_DESC" />
+		<field name="rounds" type="integer" default=""
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_ROUNDS"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_ROUNDS_DESC"
+			first="1" last="99" step="1" />
+		<field name="elocat" type="list"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_ELOCAT"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_ELOCAT_DESC">
+			<option value="0">COM_POLARTOUR_TOURNAMENT_FIELD_ELOCAT_NONE</option>
+			<option value="1">COM_POLARTOUR_TOURNAMENT_FIELD_ELOCAT_CLASSICAL</option>
+			<option value="2">COM_POLARTOUR_TOURNAMENT_FIELD_ELOCAT_RAPID</option>
+			<option value="3">COM_POLARTOUR_TOURNAMENT_FIELD_ELOCAT_BLITZ</option>
+		</field>
+		<field name="showtiebreak" type="list"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_SHOWTIEBREAK"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_SHOWTIEBREAK_DESC">
+			<option value="0">COM_POLARTOUR_TOURNAMENT_FIELD_SHOWTIEBREAK_NONE</option>
+			<option value="1">COM_POLARTOUR_TOURNAMENT_FIELD_SHOWTIEBREAK_MIN</option>
+			<option value="2">COM_POLARTOUR_TOURNAMENT_FIELD_SHOWTIEBREAK_MAX</option>
+		</field>
+		<field name="showelo" type="radio" class="btn-group"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_SHOWELO"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_SHOWELO_DESC"
+			labelclass="control-label">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field name="showclub" type="radio" class="btn-group"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_SHOWCLUB"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_SHOWCLUB_DESC"
+			labelclass="control-label">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field name="showcolor" type="radio" class="btn-group"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_SHOWCOLOR"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_SHOWCOLOR_DESC"
+			labelclass="control-label">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field name="switchname" type="radio" class="btn-group"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_SWITCHNAME"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_SWITCHNAME_DESC"
+			labelclass="control-label">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="tiebreak1" type="list"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK1"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK1_DESC">
+			<option value="0">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_NONE</option>
+			<option value="3">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZ</option>
+			<option value="6">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZCUT1</option>
+			<option value="9">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_SONNEBORNBERGER</option>
+		</field>
+		<field name="tiebreak2" type="list"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK2"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK2_DESC">
+			<option value="0">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_NONE</option>
+			<option value="3">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZ</option>
+			<option value="6">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZCUT1</option>
+			<option value="9">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_SONNEBORNBERGER</option>
+		</field>
+		<field name="tiebreak3" type="list"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK3"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK3_DESC">
+			<option value="0">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_NONE</option>
+			<option value="3">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZ</option>
+			<option value="6">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZCUT1</option>
+			<option value="9">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_SONNEBORNBERGER</option>
+		</field>
+		<field name="tiebreak4" type="list"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK4"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK4_DESC">
+			<option value="0">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_NONE</option>
+			<option value="3">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZ</option>
+			<option value="6">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZCUT1</option>
+			<option value="9">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_SONNEBORNBERGER</option>
+		</field>
+		<field name="tiebreak5" type="list"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK5"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK5_DESC">
+			<option value="0">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_NONE</option>
+			<option value="3">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZ</option>
+			<option value="6">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_BUCHHOLZCUT1</option>
+			<option value="9">COM_POLARTOUR_TOURNAMENT_FIELD_TIEBREAK_SONNEBORNBERGER</option>
+		</field>
+		<field name="tournamenttype" type="list"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_TOURNAMENTTYPE"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_TOURNAMENTTYPE_DESC">
+			<option value="0">COM_POLARTOUR_TOURNAMENT_FIELD_TOURNAMENTTYPE_UNKNOWN</option>
+			<option value="1">COM_POLARTOUR_TOURNAMENT_FIELD_TOURNAMENTTYPE_KONRAD</option>
+			<option value="2">COM_POLARTOUR_TOURNAMENT_FIELD_TOURNAMENTTYPE_MONRAD</option>
+			<option value="3">COM_POLARTOUR_TOURNAMENT_FIELD_TOURNAMENTTYPE_SWISS</option>
+			<option value="4">COM_POLARTOUR_TOURNAMENT_FIELD_TOURNAMENTTYPE_RR</option>
+			<option value="5">COM_POLARTOUR_TOURNAMENT_FIELD_TOURNAMENTTYPE_DOUBLERR</option>
+		</field>
+		<field name="startdate" type="calendar" class="inputbox" size="22"
 			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc" 
-			label="COM_POLARTOUR_TOURNAMENT_FIELD_CREATED"
-			description="COM_POLARTOUR_TOURNAMENT_FIELD_CREATED_DESC" />
-		<field name="comment" type="text" class="inputbox" size="40" 
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_STARTDATE"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_STARTDATE_DESC" />
+		<field name="enddate" type="calendar" class="inputbox" size="22"
+			format="%Y-%m-%d %H:%M:%S"
+			filter="user_utc" 
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_ENDDATE"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_ENDDATE_DESC" />
+		<field name="pgnfile" type="text" class="inputbox" size="40" 
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_PGNFILE"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_PGNFILE_DESC" />
+		<field name="updated" type="calendar" class="inputbox" size="22"
+			format="%Y-%m-%d %H:%M:%S"
+			filter="user_utc" 
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_UPDATED"
+			description="COM_POLARTOUR_TOURNAMENT_FIELD_UPDATED_DESC" />
+		<field name="comment" type="textarea" class="inputbox"
+			rows="3" cols="30" 
 			label="COM_POLARTOUR_TOURNAMENT_FIELD_COMMENT"
 			description="COM_POLARTOUR_TOURNAMENT_FIELD_COMMENT_DESC" />
 	</fieldset>

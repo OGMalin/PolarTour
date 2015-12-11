@@ -21,7 +21,7 @@ class PolartourController extends JControllerLegacy
 		$layout = $this->input->get('layout', 'default');
 		$id = $this->input->getInt('id');
 		
-		if ($view == 'polartour' && $layout == 'edit' && !$this->checkEditId('com_polartour.edit.tournament', $id))
+		if ($view == 'tournament' && $layout == 'edit' && !$this->checkEditId('com_polartour.edit.tournament', $id))
 		{
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');

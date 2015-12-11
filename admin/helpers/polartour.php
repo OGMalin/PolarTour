@@ -6,15 +6,25 @@ defined('_JEXEC') or die;
  */
 class PolartourHelper
 {
-	public static function  getActions()
+	public static function  getActions($categoryId=0)
 	{
-		$user=JFactory::getUser();
-		$result=new JObject;
+		$user = JFactory::getUser();
+		$result = new JObject();
 		
-		$actions = array('core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.edit.own', 'core.delete');
+		if (empty($categoryId))
+		{
+			$assetName = 'com_polartour';
+			$level = 'component';
+		}else 
+		{
+			$assetName = 'com_polartour.category.' . (int) $categoryId;
+			$level = 'category';
+		}
+		$actions = JAccess::getActions('com_polartour', $level);
 		
-		foreach ($actions as $action){
-			$result->set($action, $user->authorise($action, 'com_polartour'));
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 		
 		return $result;

@@ -314,11 +314,11 @@ class TournamentHelper
 		}
 
 		// Calc Tiebreak points
-		$this->calcTiebreak($this->tournament['tiebreak1'],0,$round);
-		$this->calcTiebreak($this->tournament['tiebreak2'],1,$round);
-		$this->calcTiebreak($this->tournament['tiebreak3'],2,$round);
-		$this->calcTiebreak($this->tournament['tiebreak4'],3,$round);
-		$this->calcTiebreak($this->tournament['tiebreak5'],4,$round);
+		$this->_calcTiebreak($this->tournament['tiebreak1'],0,$round);
+		$this->_calcTiebreak($this->tournament['tiebreak2'],1,$round);
+		$this->_calcTiebreak($this->tournament['tiebreak3'],2,$round);
+		$this->_calcTiebreak($this->tournament['tiebreak4'],3,$round);
+		$this->_calcTiebreak($this->tournament['tiebreak5'],4,$round);
 		
 		usort($this->score, 'ScoreCompare');
 		
