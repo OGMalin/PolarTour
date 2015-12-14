@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
-class PolartourControllerTournament extends JControllerForm
+class PolartourControllerPlayers extends JControllerAdmin
 {
+	public function getModel($name = 'Player', $prefix = 'PolartourModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
+	}
 }

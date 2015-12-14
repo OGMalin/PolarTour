@@ -6,7 +6,7 @@ defined('_JEXEC') or die;
  * @author oddg
  *
  */
-class PolartourViewTournaments extends JViewLegacy
+class PolartourViewResults extends JViewLegacy
 {
 	protected $items;
 	
@@ -15,7 +15,7 @@ class PolartourViewTournaments extends JViewLegacy
 		// Henter opp data fra /administrator/components/com_polartour/models/tournaments.php
 		$this->items = $this->get('Items');
 		
-		PolartourHelper::addSubmenu('tournaments');
+		PolartourHelper::addSubmenu('results');
 		
 		if (count($errors = $this->get('Errors')))
 		{
@@ -35,11 +35,11 @@ class PolartourViewTournaments extends JViewLegacy
 		// Add the admin view title
 		JToolbarHelper::title(JText::_('COM_POLARTOUR_POLARTOUR_TITLE'));
 		
-		JToolbarHelper::addNew('tournament.add');
+		JToolbarHelper::addNew('results.add');
 		
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::editList('tournament.edit');
+			JToolbarHelper::editList('results.edit');
 		}
 		
 		if ($canDo->get('core.admin')){

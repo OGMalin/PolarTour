@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="player">
+		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
+			readonly="true" class="readonly"
+			description="JGLOBAL_FIELD_ID_DESC" />
+		<field name="tournamentid" type="text" default="0"
+			label="COM_POLARTOUR_PLAYER_FIELD_TOURNAMENTID"
+			description="COM_POLARTOUR_PLAYER_FIELD_TOURNAMENTID_DESC" />
+		<field name="firstname" type="text" class="inputbox" size="40" 
+			label="COM_POLARTOUR_PLAYER_FIELD_FIRSTNAME"
+			description="COM_POLARTOUR_PLAYER_FIELD_FIRSTNAME_DESC" />
+		<field name="lastname" type="text" class="inputbox" size="40" 
+			label="COM_POLARTOUR_PLAYER_FIELD_LASTNAME"
+			description="COM_POLARTOUR_PLAYER_FIELD_LASTNAME_DESC" />
+		<field name="club" type="text" class="inputbox" size="40" 
+			label="COM_POLARTOUR_PLAYER_FIELD_CLUB"
+			description="COM_POLARTOUR_PLAYER_FIELD_CLUB_DESC" />
+		<field name="elo" type="text" default="0"
+			label="COM_POLARTOUR_PLAYER_FIELD_ELO"
+			description="COM_POLARTOUR_PLAYER_FIELD_ELO_DESC" />
+		<field name="startnr" type="text" default="0"
+			label="COM_POLARTOUR_PLAYER_FIELD_STARTNR"
+			description="COM_POLARTOUR_PLAYER_FIELD_STARTNR_DESC" />
+		<field name="born" type="calendar" class="inputbox" size="22"
+			format="%Y-%m-%d %H:%M:%S"
+			filter="user_utc" 
+			label="COM_POLARTOUR_PLAYER_FIELD_BORN"
+			description="COM_POLARTOUR_PLAYER_FIELD_BORN_DESC" />
+		<field name="comment" type="textarea" class="inputbox"
+			rows="3" cols="30" 
+			label="COM_POLARTOUR_PLAYER_FIELD_COMMENT"
+			description="COM_POLARTOUR_PLAYER_FIELD_COMMENT_DESC" />
+	</fieldset>
+</form>

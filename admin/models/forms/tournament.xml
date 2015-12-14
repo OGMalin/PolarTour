@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-	<fieldset>
+	<fieldset name="tournament">
 		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" class="readonly"
 			description="JGLOBAL_FIELD_ID_DESC" />
@@ -17,7 +17,7 @@
 			label="COM_POLARTOUR_TOURNAMENT_FIELD_ARBITER"
 			description="COM_POLARTOUR_TOURNAMENT_FIELD_ARBITER_DESC" />
 		<field name="owner" type="user" 
-			label="COM_POLARTOUR_TOURNAMENTK_FIELD_OWNER"
+			label="COM_POLARTOUR_TOURNAMENT_FIELD_OWNER"
 			description="COM_POLARTOUR_TOURNAMENT_FIELD_OWNER_DESC" />
 		<field name="rounds" type="integer" default=""
 			label="COM_POLARTOUR_TOURNAMENT_FIELD_ROUNDS"

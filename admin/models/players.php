@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class PolartourModelTournaments extends JModelList
+class PolartourModelPlayers extends JModelList
 {
 	public function __construct($config = array())
 	{
@@ -17,18 +17,19 @@ class PolartourModelTournaments extends JModelList
 		{
 			$config['filter_fields'] = array(
 					'id', 'a.id',
-					'event', 'a.event'
+					'tournamentid', 'a.tournamentid',
+					'lastname', 'a.lastname',
+					'firstname', 'a.firstname'
 			);
 		}
 		parent::__construct($config);
 	}
 
-	protected function populateState($ordering = null, $direction = null)
-	{
-		parent::populateState('a.event', 'asc');
-	}
-	
-	
+ 	protected function populateState($ordering = null, $direction = null)
+ 	{
+ 		parent::populateState('a.lastname', 'asc');
+ 	}
+ 	
 	protected function getListQuery()
 	{
 		$db    = $this->getDbo();
@@ -37,10 +38,10 @@ class PolartourModelTournaments extends JModelList
 		$query->select(
 				$this->getState(
 						'list.select',
-						'a.id, a.event'
+						'a.id, a.tournamentid, a.lastname, a.firstname'
 				)
 		);
-		$query->from($db->quoteName('#__polartour_tournament').' AS a');
+		$query->from($db->quoteName('#__polartour_player').' AS a');
 
 		return $query;
 	}

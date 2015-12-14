@@ -18,7 +18,7 @@ $listDirn = '';
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 					</th>
 					<th class="title">
-						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.event', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
 			</thead>
@@ -30,8 +30,8 @@ $listDirn = '';
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="nowrap has-context">
-							<a href="<?php echo JRoute::_('index.php?option=com_polartour&task=tournament.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->event); ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_polartour&task=player.edit&id='.(int) $item->id); ?>">
+								<?php echo $item->tournamentid . " " . $this->escape($item->lastname) . ", " . $this->escape($item->firstname); ?>
 							</a>
 						</td>
 					</tr>

@@ -9,6 +9,6 @@
 
 defined('_JEXEC') or die;
 
-class PolartourControllerTournament extends JControllerForm
+class PolartourControllerPlayer extends JControllerForm
 {
 }

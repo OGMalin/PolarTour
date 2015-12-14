@@ -5,7 +5,7 @@ $listOrder = '';
 $listDirn = '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_polartour&view=tournaments'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_polartour&view=results'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -18,7 +18,7 @@ $listDirn = '';
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 					</th>
 					<th class="title">
-						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.event', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.tournamentid', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
 			</thead>
@@ -30,7 +30,7 @@ $listDirn = '';
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="nowrap has-context">
-							<a href="<?php echo JRoute::_('index.php?option=com_polartour&task=tournament.edit&id='.(int) $item->id); ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_polartour&task=result.edit&id='.(int) $item->id); ?>">
 								<?php echo $this->escape($item->event); ?>
 							</a>
 						</td>
