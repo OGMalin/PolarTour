@@ -9,4 +9,19 @@ JHtml::_('bootstrap.framework');
 	<li id="playertab"><a href="#" onclick="switchTab('playertab');return false;">Spillere</a></li>
 	<li id="resulttab"><a href="#" onclick="switchTab('resulttab');return false;">Resultater</a></li>
 </ul>
-<?php echo $this->loadTemplate('modals'); ?>
+
+<form method='post'>
+<input type='hidden' name='task' value='tournament.save' />
+<input type='hidden' name='option' value='com_polartour' />
+<input type='hidden' name='t_id' value='{$this->Item["tournament"]["id"]}' />
+<input type='hidden' name='t_owner' value='{$this->Item["tournament"]["owner"]}' />
+
+<?php echo $this->loadTemplate('tournament'); ?>
+<?php echo $this->loadTemplate('players'); ?>
+<?php echo $this->loadTemplate('results'); ?>
+
+<div class='well'>
+<input class='btn btn-primary'  type='submit' value='<?php echo JText::_('COM_POLARTOUR_SAVE') ?>' />
+<input class='btn' type='submit' value='<?php echo JText::_('COM_POLARTOUR_CLOSE') ?>' />
+</div>
+</form>

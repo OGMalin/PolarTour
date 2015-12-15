@@ -21,13 +21,33 @@ class PolartourModelEdit extends JModelItem
 		$item=array("tournament" => array(), "player" => array(), "result" => array());
 		if ($this->tournament_id==0)
 		{
+			// Sett standardverdier
 			$user=JFactory::getUser();
 			$item['tournament']['id']=0;	
-			$item['tournament']['owner']=$user->id;
 			$item['tournament']['event']='';
 			$item['tournament']['site']='';	
 			$item['tournament']['organizer']='';	
-			$item['tournament']['rounds']=0;	
+			$item['tournament']['arbiter']='';	
+			$item['tournament']['owner']=$user->id;
+			$item['tournament']['ownername']=$user->name;
+			$item['tournament']['rounds']=0;
+			$item['tournament']['elocat']=0;
+			$item['tournament']['showtiebreak']=0;
+			$item['tournament']['showelo']=0;
+			$item['tournament']['showclub']=0;
+			$item['tournament']['showcolor']=0;
+			$item['tournament']['switchname']=0;
+			$item['tournament']['tiebreak1']=0;
+			$item['tournament']['tiebreak2']=0;
+			$item['tournament']['tiebreak3']=0;
+			$item['tournament']['tiebreak4']=0;
+			$item['tournament']['tiebreak5']=0;
+			$item['tournament']['tournamenttype']=0;
+			$item['tournament']['startdate']=date('Y-m-d');
+			$item['tournament']['enddate']=date('Y-m-d');
+			$item['tournament']['pgnfile']='';
+			$item['tournament']['updated']=date('Y-m-d H:i:s');
+			$item['tournament']['comment']='';
 			return $item;
 		}
 		$db=$this->getDbo();
@@ -57,6 +77,14 @@ class PolartourModelEdit extends JModelItem
 		if ($db->execute())
 			$item["result"]=$db->loadAssocList();
 		return $item;
+	}
+	
+	public function save($item)
+	{
+		echo "<pre>";
+		var_dump($item);
+		echo "</pre>";
+		
 	}
 }
 

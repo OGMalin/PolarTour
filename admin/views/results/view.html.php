@@ -9,11 +9,15 @@ defined('_JEXEC') or die;
 class PolartourViewResults extends JViewLegacy
 {
 	protected $items;
+//	protected $state;
+//	protected $pagination;
 	
 	public function display($tpl=null)
 	{
 		// Henter opp data fra /administrator/components/com_polartour/models/tournaments.php
 		$this->items = $this->get('Items');
+//		$this->state = $this->get('State');
+//		$this->pagination = $this->get('Pagination');
 		
 		PolartourHelper::addSubmenu('results');
 		

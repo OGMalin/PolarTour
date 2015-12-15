@@ -1,10 +1,35 @@
 <?php
 defined('_JEXEC') or die;
 
-$listOrder = '';
-$listDirn = '';
-?>
+// $user = JFactory::getUser();
+ $listOrder = '';//$this->escape($this->state->get('list.ordering'));
+ $listDirn = '';//$this->escape($this->state-get('list-direction'));
+// $canOrder = $user->autorise('core.edit.state', 'com_polartour');
+// $saveOrder = $listOrder == 'a.ordering';
 
+// if ($saveOrder)
+// {
+// 	$saveOrderingUrl = 'index.php?option=com_polartour&task=results.saveOrderAjax&tmpl=component';
+// 	JHtml::_('sortablelist.sortable', 'folioList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+// }
+// $sortFields = $this->getSortFields();
+?>
+<!-- script type="text/javascript">
+	Joomla.orderTable = function()
+	{
+		table = document.getElementById("sortTable");
+		direction = document.getElementById("directionTable");
+		order = table.options[table.selectedIndex].value;
+		if (order != '<?php echo $listOrder; ?>')
+		{
+			dirn = 'asc';
+		} else
+		{
+			dirn = direction.options[direction.selectedIndex].value;
+		}
+		Joomla.tableOrdering(order, dirn, '');
+	}
+</script -->
 <form action="<?php echo JRoute::_('index.php?option=com_polartour&view=results'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -31,7 +56,7 @@ $listDirn = '';
 						</td>
 						<td class="nowrap has-context">
 							<a href="<?php echo JRoute::_('index.php?option=com_polartour&task=result.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->event); ?>
+								<?php echo $item->tournamentid . " " . $item->whiteid . "-" . $item->blackid . " " . $item->result; ?>
 							</a>
 						</td>
 					</tr>
