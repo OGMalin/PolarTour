@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="result">
+		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
+			readonly="true" class="readonly"
+			description="JGLOBAL_FIELD_ID_DESC" />
+		<field name="tournamentid" type="text" default="0"
+			label="COM_POLARTOUR_RESULT_FIELD_TOURNAMENTID"
+			description="COM_POLARTOUR_RESULT_FIELD_TOURNAMENTID_DESC" />
+		<field name="whiteid" type="text" default="0"
+			label="COM_POLARTOUR_RESULT_FIELD_WHITEID"
+			description="COM_POLARTOUR_RESULT_FIELD_WHITEID_DESC" />
+		<field name="blackid" type="text" default="0"
+			label="COM_POLARTOUR_RESULT_FIELD_BLACKID"
+			description="COM_POLARTOUR_RESULT_FIELD_BLACKID_DESC" />
+		<field name="round" type="text" default="0"
+			label="COM_POLARTOUR_RESULT_FIELD_ROUND"
+			description="COM_POLARTOUR_RESULT_FIELD_ROUND_DESC" />
+		<field name="result" type="list"
+			label="COM_POLARTOUR_RESULT_FIELD_RESULT"
+			description="COM_POLARTOUR_RESULT_FIELD_RESULT_DESC">
+			<option value="0">COM_POLARTOUR_RESULT_FIELD_RESULT_ONGOING</option>
+			<option value="1">COM_POLARTOUR_RESULT_FIELD_RESULT_DRAW</option>
+			<option value="2">COM_POLARTOUR_RESULT_FIELD_RESULT_WHITEWIN</option>
+			<option value="3">COM_POLARTOUR_RESULT_FIELD_RESULT_BLACKWIN</option>
+			<option value="4">COM_POLARTOUR_RESULT_FIELD_RESULT_UNPLAYEDDRAW</option>
+			<option value="5">COM_POLARTOUR_RESULT_FIELD_RESULT_UNPLAYEDWHITEWIN</option>
+			<option value="6">COM_POLARTOUR_RESULT_FIELD_RESULT_UNPLAYEDBLACKWIN</option>
+			<option value="-1">COM_POLARTOUR_RESULT_FIELD_RESULT_USESCORE</option>
+		</field>
+		<field name="whitescore" type="text" default="0"
+			label="COM_POLARTOUR_RESULT_FIELD_WHITESCORE"
+			description="COM_POLARTOUR_RESULT_FIELD_WHITESCORE_DESC" />
+		<field name="blackscore" type="text" default="0"
+			label="COM_POLARTOUR_RESULT_FIELD_BLACKSCORE"
+			description="COM_POLARTOUR_RESULT_FIELD_BLACKSCORE_DESC" />
+		<field name="game" type="text" default="0"
+			label="COM_POLARTOUR_RESULT_FIELD_GAME"
+			description="COM_POLARTOUR_RESULT_FIELD_GAME_DESC" />
+		<field name="comment" type="textarea" class="inputbox"
+			rows="3" cols="30" 
+			label="COM_POLARTOUR_RESULT_FIELD_COMMENT"
+			description="COM_POLARTOUR_RESULT_FIELD_COMMENT_DESC" />
+	</fieldset>
+</form>
