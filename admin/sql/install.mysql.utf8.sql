@@ -21,7 +21,7 @@ CREATE TABLE `#__polartour_tournament` (
   `tiebreak3` int(11) NOT NULL DEFAULT '0' COMMENT '0=none, 1=Average Rating, 2= Average rating cut, 3=Buchholz, 4=Median Buchholz, 5=Median Buchholz 2, 6=Buchholz cut 1, 7=Bucholz cut 2, 8=Direct encounter, 9=Sonneborn-Berger',
   `tiebreak4` int(11) NOT NULL DEFAULT '0' COMMENT '0=none, 1=Average Rating, 2= Average rating cut, 3=Buchholz, 4=Median Buchholz, 5=Median Buchholz 2, 6=Buchholz cut 1, 7=Bucholz cut 2, 8=Direct encounter, 9=Sonneborn-Berger',
   `tiebreak5` int(11) NOT NULL DEFAULT '0' COMMENT '0=none, 1=Average Rating, 2= Average rating cut, 3=Buchholz, 4=Median Buchholz, 5=Median Buchholz 2, 6=Buchholz cut 1, 7=Bucholz cut 2, 8=Direct encounter, 9=Sonneborn-Berger',
-  `tournamenttype` int(11) NOT NULL DEFAULT '0' COMMENT '0=Unknown, 1=Konrad, 2=Monrad, 3=Swiss, 4=Round Robin. 5=Doble RR',
+  `tournamenttype` int(11) NOT NULL DEFAULT '0' COMMENT '0=Unknown, 1=Konrad, 2=Monrad, 3=Swiss, 4=Round Robin. 5=Doble RR, 6=Trippel RR, 7=Quadro RR',
   `startdate` date NOT NULL DEFAULT '0000-00-00',
   `enddate` date NOT NULL DEFAULT '0000-00-00',
   `pgnfile` varchar(255) NOT NULL,

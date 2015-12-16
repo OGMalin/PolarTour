@@ -10,7 +10,25 @@ class PolartourViewEdit extends JViewLegacy
 	function display($tpl = null)
 	{
 		$doc = JFactory::getDocument();
+		
+		$this->Item=$this->get('Item');
+		if ($this->Item['tournament']['owner']==0)
+			$user=JFactory::getUser();
+		else
+			$user=JFactory::getUser($this->Item['tournament']['owner']);
+		$this->Item['tournament']['ownername']=$user->name;
+		
+		$playerlist="playerid.push(0);\nplayername.push('');\n";
+		foreach ($this->Item['player'] as $player)
+		{
+			$playerlist .= "playerid.push(" . $player['id'] . ");\n";
+			$playerlist .= "playername.push('" . $player['firstname'] . ' ' . $player['lastname'] . "');\n";
+		} 
+		
 		$doc->addScriptDeclaration("
+				var playerid=[];
+				var playername=[];\n" . $playerlist . "
+				
 				function switchTab(newtab)
 				{
 					switch (newtab)
@@ -43,28 +61,6 @@ class PolartourViewEdit extends JViewLegacy
 				};
 		");
 		
-		$this->Item=$this->get('Item');
-		if ($this->Item['tournament']['owner']==0)
-			$user=JFactory::getUser();
-		else
-			$user=JFactory::getUser($this->Item['tournament']['owner']);
-		$this->Item['tournament']['ownername']=$user->name;
-		
-		for ($rid=0;$rid<count($this->Item['result']);$rid++)
-		{
-			$this->Item['result'][$rid]['white']=$this->GetPlayerName($this->Item['result'][$rid]['whiteid']);
-			$this->Item['result'][$rid]['black']=$this->GetPlayerName($this->Item['result'][$rid]['blackid']);
-		}
 		parent::display($tpl);
 	}
-	protected function GetPlayerName($id)
-	{
-		foreach ($this->Item['player'] as $player)
-		{
-			if ($player['id']==$id)
-				return $player['firstname'] . ' ' . $player['lastname']; 
-		}
-		return "";
-	}
 }
-
