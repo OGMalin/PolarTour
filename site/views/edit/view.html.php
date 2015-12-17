@@ -21,45 +21,25 @@ class PolartourViewEdit extends JViewLegacy
 		$playerlist="playerid.push(0);\nplayername.push('');\n";
 		foreach ($this->Item['player'] as $player)
 		{
-			$playerlist .= "playerid.push(" . $player['id'] . ");\n";
-			$playerlist .= "playername.push('" . $player['firstname'] . ' ' . $player['lastname'] . "');\n";
+			$playerlist .= "playerlist.push({";
+			$playerlist .= "trash:false,";
+			$playerlist .= "id:{$player['id']},";
+			$playerlist .= "startnr:{$player['startnr']},";
+			$playerlist .= "firstname:{$player['firstname']},";
+			$playerlist .= "lastname:{$player['lastname']},";
+			$playerlist .= "club:{$player['club']},";
+			$playerlist .= "elo:{$player['elo']},";
+			$playerlist .= "born:{$player['born']},";
+			$playerlist .= "comment:{$player['comment']}";
+			$playerlist .= "})\n";
 		} 
 		
+		JHtml::script('com_polartour/polartour.js',false,true);
 		$doc->addScriptDeclaration("
-				var playerid=[];
-				var playername=[];\n" . $playerlist . "
+				var tournamentid = " . $player['tournamentid'] .";\n
 				
-				function switchTab(newtab)
-				{
-					switch (newtab)
-					{
-						case 'tournamenttab':
-							jQuery('#playertab').removeClass('active');
-							jQuery('#resulttab').removeClass('active');
-							jQuery('#player').addClass('hide');
-							jQuery('#result').addClass('hide');
-							jQuery('#tournamenttab').addClass('active');
-							jQuery('#tournament').removeClass('hide');
-							break;
-						case 'playertab':
-							jQuery('#tournamenttab').removeClass('active');
-							jQuery('#resulttab').removeClass('active');
-							jQuery('#tournament').addClass('hide');
-							jQuery('#result').addClass('hide');
-							jQuery('#playertab').addClass('active');
-							jQuery('#player').removeClass('hide');
-							break;
-						case 'resulttab':
-							jQuery('#tournamenttab').removeClass('active');
-							jQuery('#playertab').removeClass('active');
-							jQuery('#player').addClass('hide');
-							jQuery('#tournament').addClass('hide');
-							jQuery('#resulttab').addClass('active');
-							jQuery('#result').removeClass('hide');
-							break;
-					};
-				};
-		");
+				var playerlist=[]\n ". $playerlist . "
+	");
 		
 		parent::display($tpl);
 	}

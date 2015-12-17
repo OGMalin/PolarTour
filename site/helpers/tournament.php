@@ -1,7 +1,14 @@
 <?php
 
 defined('_JEXEC') or die;
-
+/**
+ * Score table
+ *     0         1         2         3        4        5        6        7        8         9         10         11       12        13        14       15       ...
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * | Number  |player id|Firstname|Lastname| Score  | Tb1    | Tb2     | Tb3    | Tb4    | Tb5     |Score. r1| Op.id r1| color r1|Score. r2| Op.id r2| color r2| ....
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * |         |         |         |        |        |        |         |        |        |         |         |         |         |         |         |         |
+ */
 /**
  * Compare routine for usort()
  * @param mixed $a
@@ -53,7 +60,7 @@ class TournamentHelper
 		
 		$table="";
 		$this->_calcResult($round);
-		
+//		echo "<pre>";var_dump($this->score);echo "</pre>";
 		$table="<table class='polartour_table'>\n";
 		if ($this->head!="")
 			$table.="<caption>$this->head</caption>\n";
@@ -91,6 +98,7 @@ class TournamentHelper
 					$table.="<td class='polartour_xtable'>" . $this->_getRoundScore($i,$s[1],$round) . "</td>\n";
 			}
 			$table.="<td class='polartour_score'>{$s[4]}</td>\n";
+//			$table.="<td class='polartour_score'>{$s[5]}</td>\n";
 			$table.="</tr>\n";
 			$class=($class=='polartour_tbody_tr_odd')?'polartour_tbody_tr_even':'polartour_tbody_tr_odd';
 		}
@@ -98,6 +106,14 @@ class TournamentHelper
 		$table.="</table>\n";
 		return $table;
 	}
+/**
+ * Score table
+ *     0         1         2         3        4        5        6        7        8         9         10         11       12        13        14       15       ...
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * | Number  |player id|Firstname|Lastname| Score  | Tb1    | Tb2     | Tb3    | Tb4    | Tb5     |Score. r1| Op.id r1| color r1|Score. r2| Op.id r2| color r2| ....
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * |         |         |         |        |        |        |         |        |        |         |         |         |         |         |         |         |
+ */
 	/**
  	* 
  	* @param integer $o	Opponent number
@@ -122,19 +138,20 @@ class TournamentHelper
 		{
 			if ($this->score[$i][1]==$pid)
 			{
-				for ($j=10;$j<(10+$r);$j++)
+				for ($j=0;$j<$r;$j++)
 				{
-					if ($oid==$this->score[$i][$j+$r])
+					$col=10+$j*3;
+					if ($oid==$this->score[$i][$col+1])
 					{
-						if (($this->tournament['showcolor']==1) && ($this->score[$i][$j+$r*2]=='w'))
+						if (($this->tournament['showcolor']==1) && ($this->score[$i][$col+2]=='w'))
 							$ret.="<b>";
-						if ($this->score[$i][$j]==1)
+						if ($this->score[$i][$col]==1)
 							$ret.='1';
-						else if ($this->score[$i][$j]==0)
+						else if ($this->score[$i][$col]==0)
 							$ret.='0';
 						else
 							$ret.='&frac12;';
-						if (($this->tournament['showcolor']==1) && ($this->score[$i][$j+$r*2]=='w'))
+						if (($this->tournament['showcolor']==1) && ($this->score[$i][$col+2]=='w'))
 							$ret.="</b>";
 					}
 				}
@@ -160,6 +177,14 @@ class TournamentHelper
 		return $ret;
 	}
 	
+/**
+ * Score table
+ *     0         1         2         3        4        5        6        7        8         9         10         11       12        13        14       15       ...
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * | Number  |player id|Firstname|Lastname| Score  | Tb1    | Tb2     | Tb3    | Tb4    | Tb5     |Score. r1| Op.id r1| color r1|Score. r2| Op.id r2| color r2| ....
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * |         |         |         |        |        |        |         |        |        |         |         |         |         |         |         |         |
+ */
 	/**
 	 * 
 	 * @param integer $r Round
@@ -176,20 +201,21 @@ class TournamentHelper
 		{
 			if ($this->score[$i][1]==$p)
 			{
-				if ((!isset($this->score[$i][9+$r+$rounds*2])) || ($this->score[$i][9+$r+$rounds*2]==''))
-					return $ret; 
+				$col=7+$r*3;
+//				if ((!isset($this->score[$i][$col])) || ($this->score[$i][$col]==''))
+//					return $ret; 
 				$ret='';
-				if (($this->tournament['showcolor']==1) && ($this->score[$i][9+$r+$rounds*2]=='w'))
+				if (($this->tournament['showcolor']==1) && ($this->score[$i][$col+2]=='w'))
 					$ret.="<b>";
-				if ($this->score[$i][9+$r]==0)
+				if ($this->score[$i][$col]==0)
 					$ret.='-';
-				elseif ($this->score[$i][9+$r]==1)
+				elseif ($this->score[$i][$col]==1)
 					$ret.='+';
 				else 
 					$ret.='=';
-				if ($this->score[$i][9+$r+$rounds]==0)
+				if ($this->score[$i][$col+1]==0)
 				{
-					if ($this->score[$i][9+$r+$rounds*2]=='f')
+					if ($this->score[$i][$col+2]=='f')
 						$ret.='F';
 					else
 						$ret.='W';
@@ -199,11 +225,11 @@ class TournamentHelper
 					$k=count($this->score);
 					for ($j=0;$j<$k;$j++)
 					{
-						if ($this->score[$j][1]==$this->score[$i][9+$r+$rounds])
+						if ($this->score[$j][1]==$this->score[$i][$col+1])
 							$ret.=($k>9)?sprintf("%02d",$j+1):sprintf("%d",$j+1);
 					}
 				}
-				if (($this->tournament['showcolor']==1) && ($this->score[$i][9+$r+$rounds*2]==''))
+				if (($this->tournament['showcolor']==1) && ($this->score[$i][$col+2]=='w'))
 					$ret.="</b>";
 				return $ret;
 			}
@@ -238,6 +264,12 @@ class TournamentHelper
 	 * Number;Player id;First name;Last name;Score;Tb1;Tb2;Tb3;Tb4;Tb5;
 	 * (col 10-n)
 	 * Point round 1;...;Opponent id round 1;...;Color(w/b) or f round 1;...;
+ * Score table
+ *     0         1         2         3        4        5        6        7        8         9         10         11       12        13        14       15       ...
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * | Number  |player id|Firstname|Lastname| Score  | Tb1    | Tb2     | Tb3    | Tb4    | Tb5     |Score. r1| Op.id r1| color r1|Score. r2| Op.id r2| color r2| ....
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * |         |         |         |        |        |        |         |        |        |         |         |         |         |         |         |         |
 	 */
 	protected function _calcResult($round){
 		$this->score=array();
@@ -246,7 +278,10 @@ class TournamentHelper
 		$i=0;
 		foreach ($this->player as $p)
 		{
-			$this->score[$i++]=array(0,$p['id'],$p['firstname'],$p['lastname'],0,0,0,0,0,0);
+			$this->score[$i]=array(0,$p['id'],$p['firstname'],$p['lastname'],0,0,0,0,0,0);
+ 			for ($j=0;$j<$round;$j++)
+ 				array_push($this->score[$i],0,0,'');
+			$i++;
 		}
 		
 		foreach ($this->result as $r)
@@ -289,25 +324,26 @@ class TournamentHelper
 					continue;
 				for ($i=0;$i<count($this->score);$i++)
 				{
+					$col=7+$r['round']*3;
 					if ($this->score[$i][1]==$wp)
 					{
 						$this->score[$i][4]+=$ws;
-						$this->score[$i][9+$r['round']]=$ws;
-						$this->score[$i][9+$r['round']+$round]=$bp;
+						$this->score[$i][$col]=$ws;
+						$this->score[$i][$col+1]=$bp;
 						if ($r['result']>3)
-							$this->score[$i][9+$r['round']+$round*2]='f';
+							$this->score[$i][$col+2]='f';
 						else
-							$this->score[$i][9+$r['round']+$round*2]='w';
+							$this->score[$i][$col+2]='w';
 					}
 					if ($this->score[$i][1]==$bp)
 					{
 						$this->score[$i][4]+=$bs;
-						$this->score[$i][9+$r['round']]=$bs;
-						$this->score[$i][9+$r['round']+$round]=$wp;
+						$this->score[$i][$col]=$bs;
+						$this->score[$i][$col+1]=$wp;
 						if ($r['result']>3)
-							$this->score[$i][9+$r['round']+$round*2]='f';
+							$this->score[$i][$col+2]='f';
 						else
-							$this->score[$i][9+$r['round']+$round*2]='b';
+							$this->score[$i][$col+2]='b';
 					}
 				}
 			}
@@ -357,6 +393,12 @@ class TournamentHelper
 //		echo "<pre>";var_dump($this->score);echo "</pre>";
 	}
 
+	/**
+	 * Fill in tb score in scoretable
+	 * @param unknown $rule Tiebreak rule
+	 * @param unknown $tb   Tibreak 1-5 (0-4)
+	 * @param unknown $round Last round to calculate
+	 */
 	protected function _calcTiebreak($rule, $tb, $round)
 	{
 		switch ($rule)
@@ -392,6 +434,14 @@ class TournamentHelper
 	}
 
 	
+/**
+ * Score table
+ *     0         1         2         3        4        5        6        7        8         9         10         11       12        13        14       15       ...
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * | Number  |player id|Firstname|Lastname| Score  | Tb1    | Tb2     | Tb3    | Tb4    | Tb5     |Score. r1| Op.id r1| color r1|Score. r2| Op.id r2| color r2| ....
+ * +---------+---------+---------+--------+--------+--------+---------+--------+--------+---------+---------+---------+---------+---------+---------+---------+-----
+ * |         |         |         |        |        |        |         |        |        |         |         |         |         |         |         |         |
+ */
 	protected function _calcAverageRating($tb, $round)
 	{
 	
@@ -404,7 +454,24 @@ class TournamentHelper
 	
 	protected function _calcBuchholz($tb, $round)
 	{
-	
+		$len=count($this->score);
+		for ($i=0;$i<$len;$i++)
+		{
+			for ($j=0;$j<$round;$j++)
+			{
+				$col=10+$j*3;
+				if ($this->score[$i][$col+1]==0)
+					continue;
+				for ($k=0;$k<$len;$k++)
+				{
+					if ($this->score[$i][$col+1]==$this->score[$k][1])
+					{
+						$this->score[$i][5+$tb]+=$this->score[$k][4];
+						break;
+					}
+				}
+			}
+		}
 	}
 	
 	protected function _calcMedianBuchholz($tb, $round)
@@ -419,12 +486,82 @@ class TournamentHelper
 	
 	protected function _calcBuchholzCut1($tb, $round)
 	{
-	
+		$len=count($this->score);
+		for ($i=0;$i<$len;$i++)
+		{
+			$low=999;
+			for ($j=0;$j<$round;$j++)
+			{
+				$col=10+$j*3;
+				if ($this->score[$i][$col+1]==0)
+				{
+					$low=0;
+					continue;
+				}
+				for ($k=0;$k<$len;$k++)
+				{
+					if ($this->score[$i][$col+1]==$this->score[$k][1])
+					{
+						$this->score[$i][5+$tb]+=$this->score[$k][4];
+						if ($low>$this->score[$k][4])
+							$low=$this->score[$k][4];
+						break;
+					}
+				}
+			}
+			if ($low!=999)
+				$this->score[$i][5+$tb]-=$low;
+		}
 	}
 
 	protected function _calcBuchholzCut2($tb, $round)
 	{
-	
+		$len=count($this->score);
+		for ($i=0;$i<$len;$i++)
+		{
+			$low1=999;
+			$low2=999;
+			for ($j=0;$j<$round;$j++)
+			{
+				$col=10+$j*3;
+				if ($this->score[$i][$col+1]==0)
+				{
+					if ($low1>0)
+					{
+						$low2=$low1;
+						$low1=0;
+					}else 
+					{
+						$low2=0;
+					}
+					continue;
+				}
+				for ($k=0;$k<$len;$k++)
+				{
+					if ($this->score[$i][$col+1]==$this->score[$k][1])
+					{
+						$this->score[$i][5+$tb]+=$this->score[$k][4];
+						if ($low2>$this->score[$k][4])
+						{
+							if ($low1>$this->score[$k][4])
+							{
+								$low2=$low1;
+								$low1=$this->score[$k][4];
+							}else 
+							{
+								$low2=$this->score[$k][4];
+							}
+									
+						}
+						break;
+					}
+				}
+			}
+			if ($low1!=999)
+				$this->score[$i][5+$tb]-=$low1;
+			if ($low2!=999)
+				$this->score[$i][5+$tb]-=$low2;
+		}
 	}
 
 	protected function _calcDirectEncounter($tb, $round)
@@ -434,7 +571,23 @@ class TournamentHelper
 
 	protected function _calcSonnebornBerger($tb, $round)
 	{
-	
+		$len=count($this->score);
+		for ($i=0;$i<$len;$i++)
+		{
+			for ($j=0;$j<$round;$j++)
+			{
+				$col=10+$j*3;
+				if ($this->score[$i][$col+1]==0)
+					continue;
+				for ($k=0;$k<$len;$k++)
+				{
+					if ($this->score[$i][$col+1]==$this->score[$k][1])
+					{
+						$this->score[$i][5+$tb]+=$this->score[$k][4]*$this->score[$i][$col];
+						break;
+					}
+				}
+			}
+		}
 	}
-	
 }
