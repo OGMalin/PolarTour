@@ -2,8 +2,8 @@ window.onload=function(){init();};
 
 function init()
 {
-//	createPlayerTable();
-//	createResultTable();
+	createPlayerTable();
+	createResultTable();
 };
 
 function switchTab(newtab)
@@ -39,31 +39,30 @@ function switchTab(newtab)
 
 function createPlayerTable()
 {
-	jQuery('#player').empty();
-	var table = "<table id='playertable'><tr><th>Startnr.</th><th>Fornavn</th><th>Etternavn</th><th>Klubb</th><th>Rating</th><th>Født.</th><th>Kommentar</th><th>&nbsp;</th></tr></table>";
-	jQuery('#player').append(table);
+	jQuery('#playertable').empty();
 	var pid=0;
-	var tablerow = '';
-	tablerow += "<tr id='playerrow+pid'>";
-	tablerow +=	"<td><input class='input-mini' size='2' type='text' id='p_startnr' name='player["+pid+"][startnr]' value='"+pid+"' /></td>";
-	tablerow += "</tr>";
-	jQuery('#playertable').append(tablerow);
-//	<input type='hidden' name='player[<?php echo $pid; ?>][id]' value='<?php echo $player['id']; ?>' />
-//	<input type='hidden' name='player[<?php echo $pid; ?>][tournamentid]' value='<?php echo $player['tournamentid']; ?>' />
-//	<tr id='playerrow<?php echo $pid; ?>'>
-//	<td><input class='input-mini' size=2 type='text' id='p_startnr' name='player[<?php echo $pid; ?>][startnr]' value='<?php echo $player['startnr']; ?>' /></td>
-//	<td><input class='input-medium' type='text' id='p_firstname<?php echo $pid; ?>' name='player[<?php echo $pid; ?>][firstname]' value='<?php echo $player['firstname']; ?>' /></td>
-//	<td><input class='input-medium' type='text' id='p_lastname<?php echo $pid; ?>' name='player[<?php echo $pid; ?>][lastname]' value='<?php echo $player['lastname']; ?>' /></td>
-//	<td><input class='input-medium' type='text' id='p_club' name='player[<?php echo $pid; ?>][club]' value='<?php echo $player['club']; ?>' /></td>
-//	<td><input class='input-mini' size='4' type='text' id='p_elo' name='player[<?php echo $pid; ?>][elo]' value='<?php echo $player['elo']; ?>' /></td>
-//	<td><?php echo JHtml::_('calendar',date('d.m.Y',strtotime($player['born'])),'player[' .$pid . '][born]', 'p_born', '%d.%m.%Y', array('class' => 'input-small')); ?></td>
-//	<td><input class='input-medium' type='text' id='p_comment' name='player[<?php echo $pid; ?>][comment]' value='<?php echo $player['comment']; ?>' /></td>
-//	<td><a href="#" id="delete" href="#" title="Slett spiller" onclick="removePlayer(<?php echo $pid; ?>);return false;"><i class="icon-delete"></i></a></td>
-//	</tr>
+	var tablerow;
+	for (pid=0; pid<playerlist.length;pid++)
+	{
+		tablerow = "<tr id='playerrow"+pid+"'>";//+(playerlist[pid].trash==1)?" class='hide'";""+">";
+		tablerow += "<input type='hidden' name='player["+pid+"][trash]' value='"+playerlist[pid].id+"' />";
+		tablerow += "<input type='hidden' name='player["+pid+"][id]' value='"+playerlist[pid][1]+"' />";
+		tablerow +=	"<td><input class='input-mini size='2' type='text' id='p_startnr' name='player["+pid+"][startnr]' value='"+playerlist[pid].startnr+"' /></td>";
+		tablerow +=	"<td><input class='input-medium' type='text' id='p_firstname' name='player["+pid+"][firstname]' value='"+playerlist[pid].firstname+"' /></td>";
+		tablerow +=	"<td><input class='input-medium' type='text' id='p_firstname' name='player["+pid+"][lastname]' value='"+playerlist[pid].lastname+"' /></td>";
+		tablerow +=	"<td><input class='input-medium' type='text' id='p_club' name='player["+pid+"][club]' value='"+playerlist[pid].club+"' /></td>";
+		tablerow +=	"<td><input class='input-mini' type='text' id='p_elo' name='player["+pid+"][club]' value='"+playerlist[pid].elo+"' /></td>";
+		tablerow +=	"<td><input class='input-medium' type='text' id='p_born' name='player["+pid+"][born]' value='"+playerlist[pid].born+"' /></td>";
+		tablerow +=	"<td><input class='input-medium' type='text' id='p_comment' name='player["+pid+"][club]' value='"+playerlist[pid].comment+"' /></td>";
+		tablerow += "<td><a href='# id='delete' title='Slett spiller' onclick=removePlayer"+pid+";return false;'><i class='icon-delete'></i></a></td>";
+		tablerow += "</tr>";
+		jQuery('#playertable').append(tablerow);
+	}
 };
 
 function createResultTable()
 {
+	jQuery('#resulttable').empty();
 };
 
 function removePlayer(row)

@@ -2,7 +2,7 @@
 defined('_JEXEC') or die;
 ?>
 <div id="result" class='hide'>
-<table>
+<table id="resulttable">
 <tr>
 <th>Runde</th>
 <th>Hvit</th>
