@@ -49,7 +49,7 @@ function createPlayerTable()
 		tablerow = "<tr id='playerrow"+pid+"'>";
 		tablerow += "<input type='hidden' id='p_trash"+pid+"' name='player["+pid+"][trash]' value='"+playerlist[pid].trash+"' />";
 		tablerow += "<input type='hidden' name='player["+pid+"][id]' value='"+playerlist[pid].id+"' />";
-		tablerow +=	"<td><input class='input-mini size='2' type='text' id='p_startnr"+pid+"' name='player["+pid+"][startnr]' value='"+playerlist[pid].startnr+"' onchange='updatePlayer("+pid+");return false;' /></td>";
+		tablerow +=	"<td><input class='input-mini' type='text' id='p_startnr"+pid+"' name='player["+pid+"][startnr]' value='"+playerlist[pid].startnr+"' onchange='updatePlayer("+pid+");return false;' /></td>";
 		tablerow +=	"<td><input class='input-medium' type='text' id='p_firstname"+pid+"' name='player["+pid+"][firstname]' value='"+playerlist[pid].firstname+"' onchange='updatePlayer("+pid+");return false;' /></td>";
 		tablerow +=	"<td><input class='input-medium' type='text' id='p_lastname"+pid+"' name='player["+pid+"][lastname]' value='"+playerlist[pid].lastname+"' onchange='updatePlayer("+pid+");return false;' /></td>";
 		tablerow +=	"<td><input class='input-medium' type='text' id='p_club"+pid+"' name='player["+pid+"][club]' value='"+playerlist[pid].club+"' onchange='updatePlayer("+pid+");return false;' /></td>";
@@ -77,7 +77,7 @@ function createResultTable()
 		tablerow = "<tr id='resultrow"+rid+"'>";//+(playerlist[pid].trash==1)?" class='hide'";""+">";
 		tablerow += "<input type='hidden' id='r_trash"+rid+"' name='result["+rid+"][trash]' value='"+resultlist[rid].trash+"' />";
 		tablerow += "<input type='hidden' name='result["+rid+"][id]' value='"+resultlist[rid].id+"' />";
-		tablerow +=	"<td><input class='input-mini size='2' type='text' id='r_round"+rid+"' name='result["+rid+"][round]' value='"+resultlist[rid].round+"' onchange='updateResult("+rid+");return false;' /></td>";
+		tablerow +=	"<td><input class='input-mini' type='text' id='r_round"+rid+"' name='result["+rid+"][round]' value='"+resultlist[rid].round+"' onchange='updateResult("+rid+");return false;' /></td>";
 		tablerow += "<td><select class='input-medium' id='r_white"+rid+"' name='result["+rid+"][whiteid]' onchange='updateResult("+rid+");return false;'>";
 		tablerow += "<option value='0'></option>";
 		for (pid=0;pid<playerlist.length;pid++)
@@ -94,7 +94,7 @@ function createResultTable()
 				tablerow += "<option value='"+playerlist[pid].id+"'>"+getPlayerName(playerlist[pid].id)+"</option>";
 		}
 		tablerow += "</select></td>";
-		tablerow += "<td><select class='input-mini' id='r_result"+rid+"' name='result["+rid+"][result]' onchange='updateResult("+rid+");return false;'>";
+		tablerow += "<td><select class='input-small' id='r_result"+rid+"' name='result["+rid+"][result]' onchange='updateResult("+rid+");return false;'>";
 		tablerow += "<option value='0'></option>";
 		tablerow += "<option value='1'>½-½</option>";
 		tablerow += "<option value='2'>1-0</option>";
@@ -103,7 +103,7 @@ function createResultTable()
 		tablerow += "<option value='5'>F 1-0</option>";
 		tablerow += "<option value='6'>F 0-1</option>";
 		tablerow += "</select></td>";
-		tablerow +=	"<td><input class='input-mini size='2' type='text' id='r_game"+rid+"' name='result["+rid+"][game]' value='"+resultlist[rid].game+"' onchange='updateResult("+rid+");return false;' /></td>";
+		tablerow +=	"<td><input class='input-mini' type='text' id='r_game"+rid+"' name='result["+rid+"][game]' value='"+resultlist[rid].game+"' onchange='updateResult("+rid+");return false;' /></td>";
 		tablerow +=	"<td><input class='input-medium' type='text' id='r_comment"+rid+"' name='result["+rid+"][comment]' value='"+resultlist[rid].comment+"' onchange='updateResult("+rid+");return false;' /></td>";
 		tablerow += "<td><a href='# id='delete' title='Slett resultat' onclick=removeResult("+rid+");return false;'><i class='icon-delete'></i></a></td>";
 		tablerow += "</tr>";
