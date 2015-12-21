@@ -33,17 +33,24 @@ class PolartourViewEdit extends JViewLegacy
 			$playerlist .= "playerlist[$c].born='{$player['born']}';\n";
 			$playerlist .= "playerlist[$c].comment='{$player['comment']}';\n";
 			$c++;
-		} 
+		};
 		
 		$resultlist="";
 		$c=0;
-		foreach ($this->Item['player'] as $player)
+		foreach ($this->Item['result'] as $res)
 		{
 			$resultlist .= "resultlist[$c]=new Object();\n";
 			$resultlist .= "resultlist[$c].trash=0;\n";
+			$resultlist .= "resultlist[$c].id={$res['id']};\n";
+			$resultlist .= "resultlist[$c].round={$res['round']};\n";
+			$resultlist .= "resultlist[$c].whiteid={$res['whiteid']};\n";
+			$resultlist .= "resultlist[$c].blackid={$res['blackid']};\n";
+			$resultlist .= "resultlist[$c].result={$res['result']};\n";
+			$resultlist .= "resultlist[$c].game={$res['game']};\n";
+			$resultlist .= "resultlist[$c].comment='{$res['comment']}';\n";
 			$c++;
-		} 
-		
+		};
+				
 		JHtml::script('com_polartour/polartour.js',false,true);
 		$doc->addScriptDeclaration("var tournamentid = " . $player['tournamentid'] . ";\n");
 		$doc->addScriptDeclaration("var playerlist=[];\n" . $playerlist);

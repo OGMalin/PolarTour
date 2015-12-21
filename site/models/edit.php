@@ -81,47 +81,48 @@ class PolartourModelEdit extends JModelItem
 	
 	public function save($item)
 	{
+//		echo "<pre>"; var_dump($item); echo "</pre>"; exit;
 		$db=$this->getDbo();
 		
 		// Lagre turneringsinfo
 		$query=$db->getQuery(true);
-		if ($item['tournament']['id']==0)
+		if ((int)$item['tournament']['id']==0)
 		{
 			$query->insert('#__polartour_tournament');
 		} else
 		{
 			$query->update('#__polartour_tournament');
-			$query->where('id=' . $item['tournament']['id']);
+			$query->where('id=' . (int)$item['tournament']['id']);
 		}
 		$query->set('event=' . $db->quote($item['tournament']['event']));
 		$query->set('site=' . $db->quote($item['tournament']['site']));
 		$query->set('organizer=' . $db->quote($item['tournament']['organizer']));
 		$query->set('arbiter=' . $db->quote($item['tournament']['arbiter']));
-		$query->set('owner=' . $item['tournament']['owner']);
-		$query->set('elocat=' . $item['tournament']['elocat']);
-		$query->set('showtiebreak=' . $item['tournament']['showtiebreak']);
+		$query->set('owner=' . (int)$item['tournament']['owner']);
+		$query->set('elocat=' . (int)$item['tournament']['elocat']);
+		$query->set('showtiebreak=' . (int)$item['tournament']['showtiebreak']);
 		if (!isset($item['tournament']['showelo']))
 			$query->set('showelo=0');
 		else
-			$query->set('showelo=' . $item['tournament']['showelo']);
+			$query->set('showelo=' . (int)$item['tournament']['showelo']);
 		if (!isset($item['tournament']['showclub']))
 			$query->set('showclub=0');
 		else
-			$query->set('showclub=' . $item['tournament']['showclub']);
+			$query->set('showclub=' . (int)$item['tournament']['showclub']);
 		if (!isset($item['tournament']['showcolor']))
 			$query->set('showcolor=0');
 		else
-			$query->set('showcolor=' . $item['tournament']['showcolor']);
+			$query->set('showcolor=' . (int)$item['tournament']['showcolor']);
 		if (!isset($item['tournament']['switchname']))
 			$query->set('switchname=0');
 		else
-			$query->set('switchname=' . $item['tournament']['switchname']);
-		$query->set('tiebreak1=' . $item['tournament']['tiebreak1']);
-		$query->set('tiebreak2=' . $item['tournament']['tiebreak2']);
-		$query->set('tiebreak3=' . $item['tournament']['tiebreak3']);
-		$query->set('tiebreak4=' . $item['tournament']['tiebreak4']);
-		$query->set('tiebreak5=' . $item['tournament']['tiebreak5']);
-		$query->set('tournamenttype=' . $item['tournament']['tournamenttype']);
+			$query->set('switchname=' . (int)$item['tournament']['switchname']);
+		$query->set('tiebreak1=' . (int)$item['tournament']['tiebreak1']);
+		$query->set('tiebreak2=' . (int)$item['tournament']['tiebreak2']);
+		$query->set('tiebreak3=' . (int)$item['tournament']['tiebreak3']);
+		$query->set('tiebreak4=' . (int)$item['tournament']['tiebreak4']);
+		$query->set('tiebreak5=' . (int)$item['tournament']['tiebreak5']);
+		$query->set('tournamenttype=' . (int)$item['tournament']['tournamenttype']);
 		$query->set('startdate=' . $db->quote($item['tournament']['startdate']));
 		$query->set('enddate=' . $db->quote($item['tournament']['enddate']));
 		$query->set('pgnfile=' . $db->quote($item['tournament']['pgnfile']));
@@ -129,42 +130,41 @@ class PolartourModelEdit extends JModelItem
 		$query->set('comment=' . $db->quote($item['tournament']['comment']));
 		$db->setQuery($query);
 		$db->execute();
-		if ($item['tournament']['id']==0)
+		if ((int)$item['tournament']['id']==0)
 			$ret=$db->insertid();
 		else
-			$ret=$item['tournament']['id'];
+			$ret=(int)$item['tournament']['id'];
 
 			// Lagre spillere		
 		foreach ($item['player'] as $player)
 		{
 			$query=$db->getQuery(true);
-			$del=(strlen($player['firstname'].$player['lastname'])==0)?true:false;
-			if ($del)
+			if ((int)$player['trash']==1)
 			{
-				if ($player['id']!=0)
+				if ((int)$player['id']!=0)
 				{
 					$query=$db->getQuery(true);
-					$query->delete('#__polarbook_player');
-					$query->where('id='.$player['id']);
+					$query->delete('#__polartour_player');
+					$query->where('id='.(int)$player['id']);
 					$db->setQuery($query);
 					$db->execute();
 				}
 			} else 
 			{
-				if ($player['id']==0)
+				if ((int)$player['id']==0)
 				{
 					$query->insert('#__polartour_player');
-					$query->set('tournamentid=' . $item['tournament']['id']);
+					$query->set('tournamentid=' . (int)$item['tournament']['id']);
 				} 	else
 				{
 					$query->update('#__polartour_player');
-					$query->where('id=' . $player['id']);
+					$query->where('id=' . (int)$player['id']);
 				}
 				$query->set('firstname=' . $db->quote($player['firstname']));
 				$query->set('lastname=' . $db->quote($player['lastname']));
 				$query->set('club=' . $db->quote($player['club']));
-				$query->set('elo=' . $player['elo']);
-				$query->set('startnr=' . $player['startnr']);
+				$query->set('elo=' . (int)$player['elo']);
+				$query->set('startnr=' . (int)$player['startnr']);
 				$query->set('born=' . $db->quote($player['born']));
 				$query->set('comment=' . $db->quote($player['comment']));
 				$db->setQuery($query);
@@ -175,35 +175,32 @@ class PolartourModelEdit extends JModelItem
 		foreach ($item['result'] as $result)
 		{
 			$query=$db->getQuery(true);
-			$del=(($result['whiteid']+$result['blackid'])==0)?true:false;
-			if ($del)
+			if ((int)$result['trash']==1)
 			{
-				if ($result['id']!=0)
+				if ((int)$result['id']!=0)
 				{
 					$query=$db->getQuery(true);
-					$query->delete('#__polarbook_result');
-					$query->where('id='.$result['id']);
+					$query->delete('#__polartour_result');
+					$query->where('id='.(int)$result['id']);
 					$db->setQuery($query);
 					$db->execute();
 				}
 			} else 
 			{
-				if ($result['id']==0)
+				if ((int)$result['id']==0)
 				{
 					$query->insert('#__polartour_result');
-					$query->set('tournamentid=' . $item['tournament']['id']);
+					$query->set('tournamentid=' . (int)$item['tournament']['id']);
 				} 	else
 				{
 					$query->update('#__polartour_result');
-					$query->where('id=' . $result['id']);
+					$query->where('id=' . (int)$result['id']);
 				}
-				$query->set('whiteid=' . $result['whiteid']);
-				$query->set('blackid=' . $result['blackid']);
-				$query->set('round=' . $result['round']);
-				$query->set('result=' . $result['result']);
-				$query->set('whitescore=' . $result['whitescore']);
-				$query->set('blackscore=' . $result['blackscore']);
-				$query->set('game=' . $result['game']);
+				$query->set('whiteid=' . (int)$result['whiteid']);
+				$query->set('blackid=' . (int)$result['blackid']);
+				$query->set('round=' . (int)$result['round']);
+				$query->set('result=' . (int)$result['result']);
+				$query->set('game=' . (int)$result['game']);
 				$query->set('comment=' . $db->quote($result['comment']));
 				$db->setQuery($query);
 				$db->execute();
