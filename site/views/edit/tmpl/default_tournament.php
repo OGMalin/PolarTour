@@ -162,9 +162,5 @@ defined('_JEXEC') or die;
 <td><label><?php echo JText::_('COM_POLARTOUR_TOURNAMENT_PGNFILE'); ?></label></td>
 <td><input type='text' id='t_pgnfile' name='tournament[pgnfile]' value='<?php echo $this->Item['tournament']['pgnfile']; ?>' /></td>
 </tr>
-<tr>
-<td><label><?php echo JText::_('COM_POLARTOUR_TOURNAMENT_COMMENT'); ?></label></td>
-<td><input type='text' id='t_comment' name='tournament[comment]' value='<?php echo $this->Item['tournament']['comment']; ?>' /></td>
-</tr>
 </table>
 </div>

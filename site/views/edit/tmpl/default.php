@@ -19,6 +19,7 @@ JHtml::_('bootstrap.framework');
 <?php echo $this->loadTemplate('tournament'); ?>
 <?php echo $this->loadTemplate('players'); ?>
 <?php echo $this->loadTemplate('results'); ?>
+<?php echo $this->loadTemplate('modals'); ?>
 
 <div class='well'>
 <input class='btn btn-primary'  type='submit' name='save' value='<?php echo JText::_('COM_POLARTOUR_SAVE') ?>' />

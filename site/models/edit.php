@@ -47,7 +47,6 @@ class PolartourModelEdit extends JModelItem
 			$item['tournament']['enddate']=date('Y-m-d');
 			$item['tournament']['pgnfile']='';
 			$item['tournament']['updated']=date('Y-m-d H:i:s');
-			$item['tournament']['comment']='';
 			return $item;
 		}
 		$db=$this->getDbo();
@@ -127,7 +126,6 @@ class PolartourModelEdit extends JModelItem
 		$query->set('enddate=' . $db->quote($item['tournament']['enddate']));
 		$query->set('pgnfile=' . $db->quote($item['tournament']['pgnfile']));
 		$query->set('updated=' . $db->quote($item['tournament']['updated']));
-		$query->set('comment=' . $db->quote($item['tournament']['comment']));
 		$db->setQuery($query);
 		$db->execute();
 		if ((int)$item['tournament']['id']==0)
@@ -166,7 +164,6 @@ class PolartourModelEdit extends JModelItem
 				$query->set('elo=' . (int)$player['elo']);
 				$query->set('startnr=' . (int)$player['startnr']);
 				$query->set('born=' . $db->quote($player['born']));
-				$query->set('comment=' . $db->quote($player['comment']));
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -201,12 +198,25 @@ class PolartourModelEdit extends JModelItem
 				$query->set('round=' . (int)$result['round']);
 				$query->set('result=' . (int)$result['result']);
 				$query->set('game=' . (int)$result['game']);
-				$query->set('comment=' . $db->quote($result['comment']));
 				$db->setQuery($query);
 				$db->execute();
 			}
 		}
 		return $ret;
+	}
+	
+	public function getPlayerList()
+	{
+		$db = JFactory::getDbo();
+		$query=$db->getQuery(true);
+		$query->select('*');
+		$query->from('(select * from #__polartour_player order by id desc) as db');
+		$query->group('lastname, firstname');
+		$query->order('lastname, firstname');
+		$db->setQuery($query);
+		if (!$db->execute())
+			return array();
+		return $db->loadAssocList();
 	}
 }
 

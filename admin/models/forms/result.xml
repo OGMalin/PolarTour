@@ -26,20 +26,9 @@
 			<option value="4">COM_POLARTOUR_RESULT_FIELD_RESULT_UNPLAYEDDRAW</option>
 			<option value="5">COM_POLARTOUR_RESULT_FIELD_RESULT_UNPLAYEDWHITEWIN</option>
 			<option value="6">COM_POLARTOUR_RESULT_FIELD_RESULT_UNPLAYEDBLACKWIN</option>
-			<option value="-1">COM_POLARTOUR_RESULT_FIELD_RESULT_USESCORE</option>
 		</field>
-		<field name="whitescore" type="text" default="0"
-			label="COM_POLARTOUR_RESULT_FIELD_WHITESCORE"
-			description="COM_POLARTOUR_RESULT_FIELD_WHITESCORE_DESC" />
-		<field name="blackscore" type="text" default="0"
-			label="COM_POLARTOUR_RESULT_FIELD_BLACKSCORE"
-			description="COM_POLARTOUR_RESULT_FIELD_BLACKSCORE_DESC" />
 		<field name="game" type="text" default="0"
 			label="COM_POLARTOUR_RESULT_FIELD_GAME"
 			description="COM_POLARTOUR_RESULT_FIELD_GAME_DESC" />
-		<field name="comment" type="textarea" class="inputbox"
-			rows="3" cols="30" 
-			label="COM_POLARTOUR_RESULT_FIELD_COMMENT"
-			description="COM_POLARTOUR_RESULT_FIELD_COMMENT_DESC" />
 	</fieldset>
 </form>

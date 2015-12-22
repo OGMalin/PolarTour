@@ -31,7 +31,6 @@ class PolartourViewEdit extends JViewLegacy
 			$playerlist .= "playerlist[$c].club='{$player['club']}';\n";
 			$playerlist .= "playerlist[$c].elo={$player['elo']};\n";
 			$playerlist .= "playerlist[$c].born='{$player['born']}';\n";
-			$playerlist .= "playerlist[$c].comment='{$player['comment']}';\n";
 			$c++;
 		};
 		
@@ -47,12 +46,12 @@ class PolartourViewEdit extends JViewLegacy
 			$resultlist .= "resultlist[$c].blackid={$res['blackid']};\n";
 			$resultlist .= "resultlist[$c].result={$res['result']};\n";
 			$resultlist .= "resultlist[$c].game={$res['game']};\n";
-			$resultlist .= "resultlist[$c].comment='{$res['comment']}';\n";
 			$c++;
 		};
 				
 		JHtml::script('com_polartour/polartour.js',false,true);
 		$doc->addScriptDeclaration("var tournamentid = " . $player['tournamentid'] . ";\n");
+		$doc->addScriptDeclaration("var responseUrl='" . $this->baseurl . "/index.php?option=com_polartour&amp;';\n");
 		$doc->addScriptDeclaration("var playerlist=[];\n" . $playerlist);
 		$doc->addScriptDeclaration("var resultlist=[];\n" . $resultlist);
 		

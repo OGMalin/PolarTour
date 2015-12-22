@@ -134,9 +134,5 @@
 			filter="user_utc" 
 			label="COM_POLARTOUR_TOURNAMENT_FIELD_UPDATED"
 			description="COM_POLARTOUR_TOURNAMENT_FIELD_UPDATED_DESC" />
-		<field name="comment" type="textarea" class="inputbox"
-			rows="3" cols="30" 
-			label="COM_POLARTOUR_TOURNAMENT_FIELD_COMMENT"
-			description="COM_POLARTOUR_TOURNAMENT_FIELD_COMMENT_DESC" />
 	</fieldset>
 </form>

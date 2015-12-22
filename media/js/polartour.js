@@ -1,5 +1,7 @@
 window.onload=function(){init();};
 
+var fullplayerlist = [];
+
 function init()
 {
 };
@@ -42,7 +44,7 @@ function createPlayerTable()
 	jQuery('#playertable').empty();
 	var pid=0;
 	var tablerow;
-	tablerow = "<tr><th>Startnr.</th><th>Fornavn</th><th>Etternavn</th><th>Klubb</th><th>Rating</th><th>Født</th><th>Komentar</th><th></th></tr>";
+	tablerow = "<tr><th>Startnr.</th><th>Fornavn</th><th>Etternavn</th><th>Klubb</th><th>Rating</th><th>Født</th><th></th></tr>";
 	jQuery('#playertable').append(tablerow);
 	for (pid=0; pid<playerlist.length;pid++)
 	{
@@ -55,8 +57,8 @@ function createPlayerTable()
 		tablerow +=	"<td><input class='input-medium' type='text' id='p_club"+pid+"' name='player["+pid+"][club]' value='"+playerlist[pid].club+"' onchange='updatePlayer("+pid+");return false;' /></td>";
 		tablerow +=	"<td><input class='input-mini' type='text' id='p_elo"+pid+"' name='player["+pid+"][elo]' value='"+playerlist[pid].elo+"' onchange='updatePlayer("+pid+");return false;' /></td>";
 		tablerow +=	"<td><input class='input-medium' type='text' id='p_born"+pid+"' name='player["+pid+"][born]' value='"+playerlist[pid].born+"' onchange='updatePlayer("+pid+");return false;' /></td>";
-		tablerow +=	"<td><input class='input-medium' type='text' id='p_comment"+pid+"' name='player["+pid+"][comment]' value='"+playerlist[pid].comment+"' onchange='updatePlayer("+pid+");return false;' /></td>";
-		tablerow += "<td><a href='# id='delete' title='Slett spiller' onclick=removePlayer("+pid+");return false;'><i class='icon-delete'></i></a></td>";
+		tablerow += "<td><a href='# id='search' title='Finn spiller' onclick=searchPlayerOpen("+pid+");return false;'><i class='icon-search'></i></a> ";
+		tablerow += "<a href='# id='delete' title='Slett spiller' onclick=removePlayer("+pid+");return false;'><i class='icon-delete'></i></a></td>";
 		tablerow += "</tr>";
 		jQuery('#playertable').append(tablerow);
 		if (playerlist[pid].trash==1)
@@ -70,7 +72,7 @@ function createResultTable()
 	var rid=0;
 	var pid;
 	var tablerow;
-	tablerow = "<tr><th>Runde</th><th>Hvit</th><th>Sort</th><th>Resultat</th><th>Parti nr.</th><th>Kommentar</th><th></th></tr>";
+	tablerow = "<tr><th>Runde</th><th>Hvit</th><th>Sort</th><th>Resultat</th><th>Parti nr.</th><th></th></tr>";
 	jQuery('#resulttable').append(tablerow);
 	for (rid=0; rid<resultlist.length;rid++)
 	{
@@ -104,7 +106,6 @@ function createResultTable()
 		tablerow += "<option value='6'>F 0-1</option>";
 		tablerow += "</select></td>";
 		tablerow +=	"<td><input class='input-mini' type='text' id='r_game"+rid+"' name='result["+rid+"][game]' value='"+resultlist[rid].game+"' onchange='updateResult("+rid+");return false;' /></td>";
-		tablerow +=	"<td><input class='input-medium' type='text' id='r_comment"+rid+"' name='result["+rid+"][comment]' value='"+resultlist[rid].comment+"' onchange='updateResult("+rid+");return false;' /></td>";
 		tablerow += "<td><a href='# id='delete' title='Slett resultat' onclick=removeResult("+rid+");return false;'><i class='icon-delete'></i></a></td>";
 		tablerow += "</tr>";
 		jQuery('#resulttable').append(tablerow);
@@ -153,7 +154,6 @@ function addPlayer()
 	playerlist[pid].club='';
 	playerlist[pid].elo=0;
 	playerlist[pid].born='0000-00-00';
-	playerlist[pid].comment='';
 	createPlayerTable();
 };
 
@@ -165,7 +165,6 @@ function updatePlayer(pid)
 	playerlist[pid].club=jQuery('#p_club'+pid).val();
 	playerlist[pid].elo=jQuery('#p_elo'+pid).val();
 	playerlist[pid].born=jQuery('#p_born'+pid).val();
-	playerlist[pid].comment=jQuery('#p_comment'+pid).val();
 };
 
 function removeResult(row)
@@ -186,7 +185,6 @@ function addResult()
 	resultlist[rid].blackid=0;
 	resultlist[rid].result=0;
 	resultlist[rid].game=0;
-	resultlist[rid].comment='';
 	createResultTable();
 };
 
@@ -197,6 +195,58 @@ function updateResult(rid)
 	resultlist[rid].blackid=jQuery('#r_blackid'+rid).val();
 	resultlist[rid].result=jQuery('#r_result'+rid).val();
 	resultlist[rid].game=jQuery('#r_game'+rid).val();
-	resultlist[rid].comment=jQuery('#r_comment'+rid).val();
 };
+
+function inPlayerList(lastname, firstname)
+{
+	return false;
+};
+
+function searchPlayerOpen(pid)
+{
+	jQuery('#searchplayer').modal();
+	jQuery.ajax({
+		cache : false,
+		type : 'POST',
+		dataType : 'json',
+		url : responseUrl + 'task=response.getplayerlist&format=json',
+		timeout : 5000,
+//		error : function(){alert("Ajax error");},
+		success : function(json) {
+			if (json)
+			{
+				var i,j=0;
+				fullplayerlist=[];
+				for (i=0; i<json.length; i++)
+				{
+					if (!inPlayerList(json[i]['lastname'],json[i]['firstname']))
+					{
+						fullplayerlist[j]= new Object();
+						fullplayerlist[j].firstname=json[i]['firstname'];
+						fullplayerlist[j].lastname=json[i]['lastname'];
+						fullplayerlist[j].club=json[i]['club'];
+						fullplayerlist[j].elo=json[i]['elo'];
+						fullplayerlist[j].born=json[i]['born'];
+						++j;
+					}
+				}
+				var s="<select class='form-control' id='searchplayername'>\n";
+				for ( i=0; i<fullplayerlist.length;i++)
+				{
+					s+="<option>";
+					s+=fullplayerlist[i].firstname + ' ' + fullplayerlist[i].lastname ;
+					s+="</option>\n";
+				}
+				s+="</select>\n";
+				jQuery('#searchplayerselect').html(s);
+			}
+		}
+	});
+};
+
+function searchPlayerOk()
+{
+	var id=jQuery('#searchplayername option:selected').val();
+//	openBook(id);
+}
 
