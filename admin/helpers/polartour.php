@@ -11,6 +11,11 @@ class PolartourHelper
 		JHtmlSidebar::addEntry(JText::_('COM_POLARTOUR_TITLE_TOURNAMENTS'),'index.php?option=com_polartour&view=tournaments',$vName=='tournaments');
 		JHtmlSidebar::addEntry(JText::_('COM_POLARTOUR_TITLE_PLAYERS'),'index.php?option=com_polartour&view=players',$vName=='players');
 		JHtmlSidebar::addEntry(JText::_('COM_POLARTOUR_TITLE_RESULTS'),'index.php?option=com_polartour&view=results',$vName=='results');
+		JHtmlSidebar::addEntry(JText::_('COM_POLARTOUR_TITLE_CATEGORIES'),'index.php?option=com_categories&extension=com_polartour',$vName == 'categories');
+		if ($vName == 'categories')
+		{
+			JToolbarHelper::title(JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_polartour')),'folios-categories');
+		}
 	}
 	
 	public static function  getActions($categoryId=0)

@@ -20,6 +20,9 @@ $listDirn = '';
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.event', $listDirn, $listOrder); ?>
 					</th>
+					<th width="1%" class="nowrap center hidden-phone">
+						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,6 +36,9 @@ $listDirn = '';
 							<a href="<?php echo JRoute::_('index.php?option=com_polartour&task=tournament.edit&id='.(int) $item->id); ?>">
 								<?php echo $this->escape($item->event); ?>
 							</a>
+						</td>
+						<td class="center hidden-phone">
+							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>

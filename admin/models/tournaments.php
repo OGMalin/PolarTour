@@ -17,7 +17,8 @@ class PolartourModelTournaments extends JModelList
 		{
 			$config['filter_fields'] = array(
 					'id', 'a.id',
-					'event', 'a.event'
+					'event', 'a.event',
+					'state', 'a.state'
 			);
 		}
 		parent::__construct($config);
@@ -37,7 +38,8 @@ class PolartourModelTournaments extends JModelList
 		$query->select(
 				$this->getState(
 						'list.select',
-						'a.id, a.event'
+						'a.id, a.event',
+						'a.state'
 				)
 		);
 		$query->from($db->quoteName('#__polartour_tournament').' AS a');

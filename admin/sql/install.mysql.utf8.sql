@@ -4,7 +4,8 @@ DROP TABLE IF EXISTS `#__polartour_result`;
 
 CREATE TABLE `#__polartour_tournament` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `trash` int(11) NOT NULL DEFAULT '0',
+  `catid` int(11) NOT NULL DEFAULT '0',
+  `state` tinyint(1) NOT NULL default '0',
   `event` varchar(255) NOT NULL,
   `site` varchar(255) NOT NULL,
   `organizer` varchar(255) NOT NULL,

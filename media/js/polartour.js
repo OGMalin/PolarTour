@@ -199,12 +199,21 @@ function updateResult(rid)
 
 function inPlayerList(lastname, firstname)
 {
+	var i;
+	for (i=0;i<playerlist.length;i++)
+	{
+		if ((playerlist[i].trash==0) &&
+			(playerlist[i].lastname==lastname) &&
+			(playerlist[i].firstname==firstname))
+			return true;
+	};
 	return false;
 };
 
 function searchPlayerOpen(pid)
 {
 	jQuery('#searchplayer').modal();
+	jQuery('#searchplayerrow').val(pid);
 	jQuery.ajax({
 		cache : false,
 		type : 'POST',
@@ -217,6 +226,7 @@ function searchPlayerOpen(pid)
 			{
 				var i,j=0;
 				fullplayerlist=[];
+				jQuery('#searchplayerselect').empty();
 				for (i=0; i<json.length; i++)
 				{
 					if (!inPlayerList(json[i]['lastname'],json[i]['firstname']))
@@ -230,15 +240,15 @@ function searchPlayerOpen(pid)
 						++j;
 					}
 				}
-				var s="<select class='form-control' id='searchplayername'>\n";
-				for ( i=0; i<fullplayerlist.length;i++)
+				var s="<select class='form-control' id='searchplayername' size='5'>\n";
+				for (i=0; i<fullplayerlist.length;i++)
 				{
-					s+="<option>";
+					s+="<option value='"+i+"'>";
 					s+=fullplayerlist[i].firstname + ' ' + fullplayerlist[i].lastname ;
 					s+="</option>\n";
 				}
 				s+="</select>\n";
-				jQuery('#searchplayerselect').html(s);
+				jQuery('#searchplayerselect').append(s);
 			}
 		}
 	});
@@ -246,7 +256,13 @@ function searchPlayerOpen(pid)
 
 function searchPlayerOk()
 {
-	var id=jQuery('#searchplayername option:selected').val();
-//	openBook(id);
+	var id=jQuery('#searchplayername').val();
+	var pid=jQuery('#searchplayerrow').val();
+	playerlist[pid].firstname=fullplayerlist[id].firstname;
+	playerlist[pid].lastname=fullplayerlist[id].lastname;
+	playerlist[pid].club=fullplayerlist[id].club;
+	playerlist[pid].elo=fullplayerlist[id].elo;
+	playerlist[pid].born=fullplayerlist[id].born;
+	createPlayerTable();
 }
 

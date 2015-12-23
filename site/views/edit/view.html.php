@@ -50,7 +50,7 @@ class PolartourViewEdit extends JViewLegacy
 		};
 				
 		JHtml::script('com_polartour/polartour.js',false,true);
-		$doc->addScriptDeclaration("var tournamentid = " . $player['tournamentid'] . ";\n");
+		$doc->addScriptDeclaration("var tournamentid = " . $this->Item['tournament']['id'] . ";\n");
 		$doc->addScriptDeclaration("var responseUrl='" . $this->baseurl . "/index.php?option=com_polartour&amp;';\n");
 		$doc->addScriptDeclaration("var playerlist=[];\n" . $playerlist);
 		$doc->addScriptDeclaration("var resultlist=[];\n" . $resultlist);
