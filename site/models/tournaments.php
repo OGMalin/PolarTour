@@ -12,6 +12,7 @@ class PolartourModelTournaments extends JModelList
  			$config['filter_fields'] = array(
  					'id', 'a.id',
  					'event', 'a.event',
+ 					'state', 'a.state',
  					'startdate', 'a.startdate',
  					'enddate', 'a.enddate',
  					'updated', 'a.updated'
@@ -23,7 +24,15 @@ class PolartourModelTournaments extends JModelList
 
  	protected function populateState($ordering = null, $direction = null)
  	{
- 		parent::populateState('a.enddate', 'desc');
+		$app=JFactory::getApplication();
+		$input = $app->input;
+ 		
+		$catid = $input->getInt('catid');
+		$startdate=$input->getString('startdate');
+		$enddate=$input->getString('enddate');
+		$this->setState('catid', $catid);
+		$this->setState('startdate', $startdate);
+ 		$this->setState('enddate', $enddate);
  	}
  	
  	protected function getListQuery()
@@ -32,12 +41,41 @@ class PolartourModelTournaments extends JModelList
 		$query = $db->getQuery(true);
 
 		$query->select('*');
+//				$this->getState(
+//						'list.select',
+// 						'a.id',
+// 						'a.event',
+// 						'a.state',
+// 						'a.startdate',
+// 						'a.enddate',
+// 						'a.updated'
+//						)
+//				);
 		$query->from($db->quoteName('#__polartour_tournament') . ' AS a');
 
-//		$orderCol	= $this->state->get('list.ordering');
+		$query->where('(a.state IN (0, 1))');
+		
+		if ($categoryId = $this->getState('catid'))
+		{
+			$query->where('a.catid = '.(int) $categoryId);
+		}
+		
+		if ($startdate = $this->getState('startdate'))
+		{
+			$query->where("a.startdate >= '" . $startdate . "'");
+		}
+
+ 		if ($enddate = $this->getState('enddate'))
+		{
+			$query->where("a.enddate <= '" . $enddate . "'");
+		}
+		
+		//		$orderCol	= $this->state->get('list.ordering');
 //		$orderDirn	= $this->state->get('list.direction');
 //		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+//		echo "<pre>"; echo $query->__toString(); echo "</pre>";
 		
 		return $query;
 	}
 }
+

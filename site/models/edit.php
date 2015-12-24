@@ -24,6 +24,8 @@ class PolartourModelEdit extends JModelItem
 			// Sett standardverdier
 			$user=JFactory::getUser();
 			$item['tournament']['id']=0;	
+			$item['tournament']['catid']=0;	
+			$item['tournament']['state']=0;	
 			$item['tournament']['event']='';
 			$item['tournament']['site']='';	
 			$item['tournament']['organizer']='';	

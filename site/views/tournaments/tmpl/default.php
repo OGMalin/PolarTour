@@ -32,5 +32,5 @@ JHtml::_('bootstrap.framework');
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
-	<a href="<?php echo JRoute::_('index.php?option=com_polartour&view=edit&id=0'); ?>">Ny turnering</a>
 </table>
+<a href="<?php echo JRoute::_('index.php?option=com_polartour&view=edit&id=0'); ?>">Ny turnering</a>
