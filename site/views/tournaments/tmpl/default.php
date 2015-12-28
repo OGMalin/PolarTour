@@ -1,5 +1,7 @@
 <?php
 defined('_JEXEC') or die;
+$user		= JFactory::getUser();
+$canCreate = $user->authorise('core.create',     'com_polartour');
 
 JHtml::_('bootstrap.framework');
 ?>
@@ -14,11 +16,10 @@ JHtml::_('bootstrap.framework');
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ($this->items as $item) :
-		 ?>
-			<tr>
+		<?php foreach ($this->items as $item) : ?>
+			<tr<?php if ($item->state==0) echo " class='muted'"?>>
 				<td>
-					<a href="<?php echo JRoute::_('index.php?option=com_polartour&view=tournament&id='.(int) $item->id); ?>"><?php echo $this->escape($item->event); ?></a>
+					<a<?php if ($item->state==0) echo " class='muted'"?> href="<?php echo JRoute::_('index.php?option=com_polartour&view=tournament&id='.(int) $item->id); ?>"><?php echo $this->escape($item->event); ?></a>
 				</td>
 				<td>
 					<?php echo JHTML::_('date', $item->startdate, JText::_('DATE_FORMAT_JS1')); ?>
@@ -33,4 +34,6 @@ JHtml::_('bootstrap.framework');
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<a href="<?php echo JRoute::_('index.php?option=com_polartour&view=edit&id=0'); ?>">Ny turnering</a>
+<?php if ($canCreate)
+echo "<a href=" . JRoute::_('index.php?option=com_polartour&view=edit&id=0') . ">Ny turnering</a>";
+?>

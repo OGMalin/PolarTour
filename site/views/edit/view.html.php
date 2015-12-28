@@ -5,13 +5,16 @@ jimport( 'joomla.html.html' );
 class PolartourViewEdit extends JViewLegacy
 {
 	protected $Item;
-
+	protected $form;
 	
 	function display($tpl = null)
 	{
+		$this->form		= $this->get('Form');
+		
 		$doc = JFactory::getDocument();
 		
 		$this->Item=$this->get('Item');
+		
 		if ($this->Item['tournament']['owner']==0)
 			$user=JFactory::getUser();
 		else
@@ -51,6 +54,8 @@ class PolartourViewEdit extends JViewLegacy
 				
 		JHtml::script('com_polartour/polartour.js',false,true);
 		$doc->addScriptDeclaration("var tournamentid = " . $this->Item['tournament']['id'] . ";\n");
+		$doc->addScriptDeclaration("var catid = " . $this->Item['tournament']['catid'] . ";\n");
+		$doc->addScriptDeclaration("var state = " . $this->Item['tournament']['state'] . ";\n");
 		$doc->addScriptDeclaration("var responseUrl='" . $this->baseurl . "/index.php?option=com_polartour&amp;';\n");
 		$doc->addScriptDeclaration("var playerlist=[];\n" . $playerlist);
 		$doc->addScriptDeclaration("var resultlist=[];\n" . $resultlist);

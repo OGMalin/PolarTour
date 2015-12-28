@@ -26,7 +26,7 @@ class PolartourModelTournaments extends JModelList
  	{
 		$app=JFactory::getApplication();
 		$input = $app->input;
- 		
+		
 		$catid = $input->getInt('catid');
 		$startdate=$input->getString('startdate');
 		$enddate=$input->getString('enddate');
@@ -37,6 +37,8 @@ class PolartourModelTournaments extends JModelList
  	
  	protected function getListQuery()
 	{
+		$user	= JFactory::getUser();
+		$canEdit = $user->authorise('core.edit',     'com_polartour');
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
@@ -53,8 +55,11 @@ class PolartourModelTournaments extends JModelList
 //				);
 		$query->from($db->quoteName('#__polartour_tournament') . ' AS a');
 
-		$query->where('(a.state IN (0, 1))');
-		
+		if ($canEdit)
+			$query->where('(a.state IN (0, 1, 2))');
+		else
+			$query->where('(a.state IN (1, 2))');
+				
 		if ($categoryId = $this->getState('catid'))
 		{
 			$query->where('a.catid = '.(int) $categoryId);
@@ -70,7 +75,7 @@ class PolartourModelTournaments extends JModelList
 			$query->where("a.enddate <= '" . $enddate . "'");
 		}
 		
-		//		$orderCol	= $this->state->get('list.ordering');
+//		$orderCol	= $this->state->get('list.ordering');
 //		$orderDirn	= $this->state->get('list.direction');
 //		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 //		echo "<pre>"; echo $query->__toString(); echo "</pre>";

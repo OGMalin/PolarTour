@@ -3,7 +3,7 @@
 defined('_JEXEC') or die;
 
 //jimport('joomla.application.component.modelitem');
-class PolartourModelEdit extends JModelItem
+class PolartourModelEdit extends JModelAdmin
 {
 	public $tournament_id;
 	
@@ -59,24 +59,21 @@ class PolartourModelEdit extends JModelItem
 		$query->where("id={$this->tournament_id}");
 		//		var_dump($query); return;
 		$db->setQuery($query);
-		if ($db->execute())
-		  $item["tournament"]=$db->loadAssoc();
+	  $item["tournament"]=$db->loadAssoc();
 		
 		$query=$db->getQuery(true);
 		$query->select('*');
 		$query->from('#__polartour_player');
 		$query->where("tournamentid={$this->tournament_id}");
 		$db->setQuery($query);
-		if ($db->execute())
-			$item["player"]=$db->loadAssocList();
+		$item["player"]=$db->loadAssocList();
 
 		$query=$db->getQuery(true);
 		$query->select('*');
 		$query->from('#__polartour_result');
 		$query->where("tournamentid={$this->tournament_id}");
 		$db->setQuery($query);
-		if ($db->execute())
-			$item["result"]=$db->loadAssocList();
+		$item["result"]=$db->loadAssocList();
 		return $item;
 	}
 	
@@ -95,6 +92,8 @@ class PolartourModelEdit extends JModelItem
 			$query->update('#__polartour_tournament');
 			$query->where('id=' . (int)$item['tournament']['id']);
 		}
+		$query->set('catid=' . (int)$item['tournament']['catid']);
+		$query->set('state=' . (int)$item['tournament']['state']);
 		$query->set('event=' . $db->quote($item['tournament']['event']));
 		$query->set('site=' . $db->quote($item['tournament']['site']));
 		$query->set('organizer=' . $db->quote($item['tournament']['organizer']));
@@ -219,6 +218,29 @@ class PolartourModelEdit extends JModelItem
 		if (!$db->execute())
 			return array();
 		return $db->loadAssocList();
+	}
+
+	public function getForm($data = array(), $loadData = true)
+	{
+		$app = JFactory::getApplication();
+
+		$form = $this->loadForm('com_polartour.tournament', 'tournament', array('control' => 'jform', 'load_data' => $loadData));
+		if (empty($form))
+		{
+			return false;
+		}
+
+		return $form;
+	}
+
+	protected function loadFormData()
+	{
+		$data = JFactory::getApplication()->getUserState('com_polartour.edit.tournament.data', array());
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
+		return $data;
 	}
 }
 

@@ -11,6 +11,15 @@ defined('_JEXEC') or die;
 <td><input type='text' id='t_event' name='tournament[event]' value='<?php echo $this->Item['tournament']['event']; ?>' /></td>
 </tr>
 <tr>
+<td><label><?php echo $this->form->getLabel('catid'); ?></label></td>
+<td><?php echo $this->form->getInput('catid'); ?></td>
+</tr>
+<tr>
+<tr>
+<td><label><?php echo $this->form->getLabel('state'); ?></label></td>
+<td><?php echo $this->form->getInput('state'); ?></td>
+</tr>
+<tr>
 <td><label><?php echo JText::_('COM_POLARTOUR_TOURNAMENT_SITE'); ?></label></td>
 <td><input type='text' id='t_site' name='tournament[site]' value='<?php echo $this->Item['tournament']['site']; ?>' /></td>
 </tr>

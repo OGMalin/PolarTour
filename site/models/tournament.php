@@ -29,24 +29,21 @@ class PolartourModelTournament extends JModelItem
 		$query->where("id={$this->tournament_id}");
 		//		var_dump($query); return;
 		$db->setQuery($query);
-		if ($db->execute())
-		  $item["tournament"]=$db->loadAssoc();
+	  $item["tournament"]=$db->loadAssoc();
 		
 		$query=$db->getQuery(true);
 		$query->select('*');
 		$query->from('#__polartour_player');
 		$query->where("tournamentid={$this->tournament_id}");
 		$db->setQuery($query);
-		if ($db->execute())
-			$item["player"]=$db->loadAssocList();
+		$item["player"]=$db->loadAssocList();
 
 		$query=$db->getQuery(true);
 		$query->select('*');
 		$query->from('#__polartour_result');
 		$query->where("tournamentid={$this->tournament_id}");
 		$db->setQuery($query);
-		if ($db->execute())
-			$item["result"]=$db->loadAssocList();
+		$item["result"]=$db->loadAssocList();
 		return $item;
 	}
 }

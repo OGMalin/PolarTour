@@ -21,6 +21,9 @@ class PolartourControllerTournament extends JControllerLegacy
 	
 	public function save()
 	{
+		$user		= JFactory::getUser();
+		$canEdit = $user->authorise('core.edit', 'com_polartour');
+		
 		$app=JFactory::getApplication();
 		$input = $app->input;
 		$item=array("tournament" => array(), "player" => array(), "result" => array());
@@ -31,12 +34,15 @@ class PolartourControllerTournament extends JControllerLegacy
 		$item['tournament']['enddate']=date('Y-m-d', strtotime($item['tournament']['enddate']));
 		$item['player']=$input->get('player',array(),'');
 		$item['result']=$input->get('result',array(),'');
-		if ($input->getString('save')==JText::_('COM_POLARTOUR_SAVE'))
+		if ($canEdit)
 		{
-			$id=$this->getModel('Edit')->save($item);
-		} else 
-		{
-			$id=$item['tournament']['id'];
+			if ($input->getString('save')==JText::_('COM_POLARTOUR_SAVE'))
+			{
+				$id=$this->getModel('Edit')->save($item);
+			} else 
+			{
+				$id=$item['tournament']['id'];
+			}
 		}
 		if ($id==0)
 			$app->redirect(JRoute::_('index.php?option=com_polartour&view=tournaments'));

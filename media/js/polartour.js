@@ -4,6 +4,10 @@ var fullplayerlist = [];
 
 function init()
 {
+	jQuery('#jform_catid').attr('name','tournament[catid]');
+	jQuery('#jform_state').attr('name','tournament[state]');
+	jQuery('#jform_catid').val(catid);
+	jQuery('#jform_state').val(state);
 };
 
 function switchTab(newtab)
