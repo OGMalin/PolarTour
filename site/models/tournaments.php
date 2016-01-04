@@ -38,7 +38,7 @@ class PolartourModelTournaments extends JModelList
  	protected function getListQuery()
 	{
 		$user	= JFactory::getUser();
-		$canEdit = $user->authorise('core.edit',     'com_polartour');
+		$canEdit = $user->authorise('core.edit', 'com_polartour');
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
