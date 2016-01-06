@@ -98,6 +98,7 @@ class PolartourModelEdit extends JModelAdmin
 		$query->set('site=' . $db->quote($item['tournament']['site']));
 		$query->set('organizer=' . $db->quote($item['tournament']['organizer']));
 		$query->set('arbiter=' . $db->quote($item['tournament']['arbiter']));
+		$query->set('rounds=' . (int)$item['tournament']['rounds']);
 		$query->set('owner=' . (int)$item['tournament']['owner']);
 		$query->set('elocat=' . (int)$item['tournament']['elocat']);
 		$query->set('showtiebreak=' . (int)$item['tournament']['showtiebreak']);

@@ -68,7 +68,7 @@ class TournamentHelper
 		$table.="<tr>\n";
 		$table.="<th class='polartour_number'>Pl.</th>\n";
 		$table.="<th class='polartour_name'>Navn</th>\n";
-		if ($this->tournament['tournamenttype']>4)
+		if ($this->tournament['tournamenttype']>3)
 		{
 			for ($i=1;$i<=count($this->score);$i++)
 				$table.="<th class='polartour_xtable'>$i</th>\n";
@@ -88,7 +88,7 @@ class TournamentHelper
 			$table.="<tr class=$class>\n";
 			$table.="<td class='polartour_number'>{$s[0]}</td>\n";
 			$table.="<td class='polartour_name'>{$s[2]} {$s[3]}</td>\n";
-			if ($this->tournament['tournamenttype']>4)
+			if ($this->tournament['tournamenttype']>3)
 			{
 				for ($i=0;$i<count($this->score);$i++)
 					$table.="<td class='polartour_xtable'>" . $this->_getRoundRobinScore($this->score[$i][1],$s[1],$round) . "</td>\n";

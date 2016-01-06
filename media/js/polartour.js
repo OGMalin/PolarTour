@@ -8,6 +8,8 @@ function init()
 	jQuery('#jform_state').attr('name','tournament[state]');
 	jQuery('#jform_catid').val(catid);
 	jQuery('#jform_state').val(state);
+	createPlayerTable();
+	createResultTable();
 };
 
 function switchTab(newtab)
@@ -73,9 +75,10 @@ function createPlayerTable()
 function createResultTable()
 {
 	jQuery('#resulttable').empty();
-	var rid=0;
+	var rid;
 	var pid;
 	var tablerow;
+	var resnum=0;
 	tablerow = "<tr><th>Runde</th><th>Hvit</th><th>Sort</th><th>Resultat</th><th>Parti nr.</th><th></th></tr>";
 	jQuery('#resulttable').append(tablerow);
 	for (rid=0; rid<resultlist.length;rid++)
@@ -89,7 +92,7 @@ function createResultTable()
 		for (pid=0;pid<playerlist.length;pid++)
 		{
 			if (playerlist[pid].trash==0)
-				tablerow += "<option value='"+playerlist[pid].id+"'>"+getPlayerName(playerlist[pid].id)+"</option>";
+				tablerow += "<option value='"+playerlist[pid].id+"'"+(playerlist[pid].id==0?' disabled':'')+">"+getPlayerName(playerlist[pid].id)+"</option>";
 		}
 		tablerow += "</select></td>";
 		tablerow += "<td><select class='input-medium' id='r_black"+rid+"' name='result["+rid+"][blackid]' onchange='updateResult("+rid+");return false;'>";
@@ -97,7 +100,7 @@ function createResultTable()
 		for (pid=0;pid<playerlist.length;pid++)
 		{
 			if (playerlist[pid].trash==0)
-				tablerow += "<option value='"+playerlist[pid].id+"'>"+getPlayerName(playerlist[pid].id)+"</option>";
+				tablerow += "<option value='"+playerlist[pid].id+"'"+(playerlist[pid].id==0?' disabled':'')+">"+getPlayerName(playerlist[pid].id)+"</option>";
 		}
 		tablerow += "</select></td>";
 		tablerow += "<td><select class='input-small' id='r_result"+rid+"' name='result["+rid+"][result]' onchange='updateResult("+rid+");return false;'>";
@@ -119,7 +122,100 @@ function createResultTable()
 		if (resultlist[rid].trash==1)
 			jQuery('#resultrow'+rid).addClass('hide');
 	}
+	if (canGenerateBerger())
+	{
+		jQuery('#r_berger').removeClass('hide');
+	}else
+	{
+		jQuery('#r_berger').addClass('hide');
+	}
+};
+
+function canGenerateBerger()
+{
+	if (!isBerger())
+		return false;
+	var num=numberOfPlayers();
+	if ((num<3) || (num>12))
+		return false;
+	if (numberOfResults()>0)
+		return false;
+	if (unsavedPlayers())
+		return false;
 	
+	var pid;
+	var startnr;
+	updatePlayerList();
+	for (pid=0;pid<playerlist.length;pid++)
+	{
+		if (playerlist[pid].trash!=1)
+		{
+			if (playerlist[pid].startnr<1)
+				return false;
+		};
+	};
+	return true;
+};
+
+function updatePlayerList()
+{
+	var pid;
+	for (pid=0; pid< playerlist.length; pid++)
+	{
+		if (playerlist[pid].trash==0)
+		{
+			playerlist[pid].startnr=jQuery('#p_startnr'+pid).val();
+			playerlist[pid].firstname=jQuery('#p_firstname'+pid).val();
+			playerlist[pid].lastname=jQuery('#p_lastname'+pid).val();
+			playerlist[pid].club=jQuery('#p_club'+pid).val();
+			playerlist[pid].elo=jQuery('#p_elo'+pid).val();
+			playerlist[pid].born=jQuery('#p_born'+pid).val();
+		};
+	};
+};
+
+function unsavedPlayers()
+{
+	var pid;
+	for (pid=0;pid<playerlist.length;pid++)
+	{
+		if (playerlist[pid].trash!=1)
+			if (playerlist[pid].id==0)
+				return true;
+	};
+	return false;
+};
+
+function numberOfPlayers()
+{
+	var ret=0;
+	var pid;
+	for (pid=0;pid<playerlist.length;pid++)
+	{
+		if (playerlist[pid].trash!=1)
+			++ret;
+	};
+	return ret;
+};
+
+function numberOfResults()
+{
+	var ret=0;
+	var rid;
+	for (rid=0;rid<resultlist.length;rid++)
+	{
+		if (resultlist[rid].trash!=1)
+			++ret;
+	};
+	return ret;
+};
+
+function isBerger()
+{
+	var turnamenttype=jQuery('#t_tournamenttype').val();
+	if ((turnamenttype>=4) && (turnamenttype<=7))
+		return true;
+	return false;
 };
 
 function getPlayerName(id)
@@ -131,6 +227,18 @@ function getPlayerName(id)
 			return playerlist[pid].firstname+' '+playerlist[pid].lastname
 	}
 	return '';
+};
+
+function getPlayerIdByStartnr(startnr)
+{
+	var pid;
+	for (pid=0;pid<playerlist.length;pid++)
+	{
+		if (playerlist[pid].trash==0)
+			if (playerlist[pid].startnr==startnr)
+				return playerlist[pid].id;
+	}
+	return 0;
 };
 
 function removePlayer(pid)
@@ -176,6 +284,13 @@ function removeResult(row)
 	jQuery('#r_trash'+row).val('1');
 	resultlist[row].trash=1;
 	jQuery('#resultrow'+row).addClass('hide');
+	if (canGenerateBerger())
+	{
+		jQuery('#r_berger').removeClass('hide');
+	}else
+	{
+		jQuery('#r_berger').addClass('hide');
+	}
 };
 				
 function addResult()
@@ -190,6 +305,19 @@ function addResult()
 	resultlist[rid].result=0;
 	resultlist[rid].game=0;
 	createResultTable();
+};
+
+function addResult(round, whiteid, blackid)
+{
+	var rid = resultlist.length;
+	resultlist[rid] = new Object();
+	resultlist[rid].trash=0;
+	resultlist[rid].id=0;
+	resultlist[rid].round=round;
+	resultlist[rid].whiteid=whiteid;
+	resultlist[rid].blackid=blackid;
+	resultlist[rid].result=0;
+	resultlist[rid].game=0;
 };
 
 function updateResult(rid)
@@ -268,5 +396,332 @@ function searchPlayerOk()
 	playerlist[pid].elo=fullplayerlist[id].elo;
 	playerlist[pid].born=fullplayerlist[id].born;
 	createPlayerTable();
-}
+};
 
+function generateBerger()
+{
+	if (!canGenerateBerger())
+		return;
+
+	var num=numberOfPlayers();
+
+	switch (num)
+	{
+		case 3:
+		case 4: generateBerger4();
+				break;
+		case 5:
+		case 6: generateBerger6();
+				break;
+		case 7:
+		case 8: generateBerger8();
+				break;
+		case 9:
+		case 10: generateBerger10();
+				break;
+		case 11:
+		case 12: generateBerger12();
+				break;
+	};
+	createResultTable();
+};
+
+function generateBerger4()
+{
+	var berger=[[1,4],[2,3],
+	            [1,2],[4,3],
+	            [3,1],[2,4]]; 
+	var turnamenttype=jQuery('#t_tournamenttype').val();
+	var r;
+	for (r=0;r<3;r++)
+	{
+		addResult(r+1, getPlayerIdByStartnr(berger[r*2][0]),getPlayerIdByStartnr(berger[r*2][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*2+1][0]),getPlayerIdByStartnr(berger[r*2+1][1]));
+	}
+	if (turnamenttype>4)
+	{
+		for (r=0;r<3;r++)
+		{
+			addResult(r+4, getPlayerIdByStartnr(berger[r*2][1]),getPlayerIdByStartnr(berger[r*2][0]));
+			addResult(r+4, getPlayerIdByStartnr(berger[r*2+1][1]),getPlayerIdByStartnr(berger[r*2+1][0]));
+		}
+		
+	}
+	if (turnamenttype>5)
+	{
+		for (r=0;r<3;r++)
+		{
+			addResult(r+7, getPlayerIdByStartnr(berger[r*2][0]),getPlayerIdByStartnr(berger[r*2][1]));
+			addResult(r+7, getPlayerIdByStartnr(berger[r*2+1][0]),getPlayerIdByStartnr(berger[r*2+1][1]));
+		}
+		
+	}
+	if (turnamenttype==7)
+	{
+		for (r=0;r<3;r++)
+		{
+			addResult(r+10, getPlayerIdByStartnr(berger[r*2][1]),getPlayerIdByStartnr(berger[r*2][0]));
+			addResult(r+10, getPlayerIdByStartnr(berger[r*2+1][1]),getPlayerIdByStartnr(berger[r*2+1][0]));
+		}
+		
+	}
+	// Remove walkover in round robin
+	var rid;
+	for (rid=0; rid<resultlist.length; rid++)
+	{
+		if ((resultlist[rid].whiteid==0) || (resultlist[rid].blackid==0))
+			resultlist[rid].trash=1;
+	}
+};
+
+function generateBerger6()
+{
+	var berger=[[1,6],[2,5],[3,4],
+	            [1,2],[5,3],[6,4],
+	            [3,1],[2,6],[4,5],
+	            [1,4],[2,3],[6,5],
+	            [5,1],[4,2],[3,6]]; 
+	var turnamenttype=jQuery('#t_tournamenttype').val();
+	var r;
+	for (r=0;r<5;r++)
+	{
+		addResult(r+1, getPlayerIdByStartnr(berger[r*3][0]),getPlayerIdByStartnr(berger[r*3][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*3+1][0]),getPlayerIdByStartnr(berger[r*3+1][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*3+2][0]),getPlayerIdByStartnr(berger[r*3+2][1]));
+	}
+	if (turnamenttype>4)
+	{
+		for (r=0;r<5;r++)
+		{
+			addResult(r+6, getPlayerIdByStartnr(berger[r*3][1]),getPlayerIdByStartnr(berger[r*3][0]));
+			addResult(r+6, getPlayerIdByStartnr(berger[r*3+1][1]),getPlayerIdByStartnr(berger[r*3+1][0]));
+			addResult(r+6, getPlayerIdByStartnr(berger[r*3+2][1]),getPlayerIdByStartnr(berger[r*3+2][0]));
+		}
+		
+	}
+	if (turnamenttype>5)
+	{
+		for (r=0;r<5;r++)
+		{
+			addResult(r+11, getPlayerIdByStartnr(berger[r*3][0]),getPlayerIdByStartnr(berger[r*3][1]));
+			addResult(r+11, getPlayerIdByStartnr(berger[r*3+1][0]),getPlayerIdByStartnr(berger[r*3+1][1]));
+			addResult(r+11, getPlayerIdByStartnr(berger[r*3+2][0]),getPlayerIdByStartnr(berger[r*3+2][1]));
+		}
+		
+	}
+	if (turnamenttype==7)
+	{
+		for (r=0;r<5;r++)
+		{
+			addResult(r+16, getPlayerIdByStartnr(berger[r*3][1]),getPlayerIdByStartnr(berger[r*3][0]));
+			addResult(r+16, getPlayerIdByStartnr(berger[r*3+1][1]),getPlayerIdByStartnr(berger[r*3+1][0]));
+			addResult(r+16, getPlayerIdByStartnr(berger[r*3+2][1]),getPlayerIdByStartnr(berger[r*3+2][0]));
+		}
+	}
+
+	// Remove walkover in round robin
+	var rid;
+	for (rid=0; rid<resultlist.length; rid++)
+	{
+		if ((resultlist[rid].whiteid==0) || (resultlist[rid].blackid==0))
+			resultlist[rid].trash=1;
+	}
+};
+
+function generateBerger8()
+{
+	var berger=[[1,8],[2,7],[3,6],[4,5],
+	            [1,2],[7,3],[6,4],[8,5],
+	            [3,1],[2,8],[4,7],[5,6],
+	            [1,4],[2,3],[7,5],[8,6],
+	            [5,1],[4,2],[3,8],[6,7],
+	            [1,6],[2,5],[3,4],[8,7],
+	            [7,1],[6,2],[5,3],[4,8]]; 
+	var turnamenttype=jQuery('#t_tournamenttype').val();
+	var r;
+	for (r=0;r<7;r++)
+	{
+		addResult(r+1, getPlayerIdByStartnr(berger[r*4][0]),getPlayerIdByStartnr(berger[r*4][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*4+1][0]),getPlayerIdByStartnr(berger[r*4+1][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*4+2][0]),getPlayerIdByStartnr(berger[r*4+2][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*4+3][0]),getPlayerIdByStartnr(berger[r*4+3][1]));
+	}
+	if (turnamenttype>4)
+	{
+		for (r=0;r<7;r++)
+		{
+			addResult(r+8, getPlayerIdByStartnr(berger[r*4][1]),getPlayerIdByStartnr(berger[r*4][0]));
+			addResult(r+8, getPlayerIdByStartnr(berger[r*4+1][1]),getPlayerIdByStartnr(berger[r*4+1][0]));
+			addResult(r+8, getPlayerIdByStartnr(berger[r*4+2][1]),getPlayerIdByStartnr(berger[r*4+2][0]));
+			addResult(r+8, getPlayerIdByStartnr(berger[r*4+3][1]),getPlayerIdByStartnr(berger[r*4+3][0]));
+		}
+		
+	}
+	if (turnamenttype>5)
+	{
+		for (r=0;r<7;r++)
+		{
+			addResult(r+15, getPlayerIdByStartnr(berger[r*4][0]),getPlayerIdByStartnr(berger[r*4][1]));
+			addResult(r+15, getPlayerIdByStartnr(berger[r*4+1][0]),getPlayerIdByStartnr(berger[r*4+1][1]));
+			addResult(r+15, getPlayerIdByStartnr(berger[r*4+2][0]),getPlayerIdByStartnr(berger[r*4+2][1]));
+			addResult(r+15, getPlayerIdByStartnr(berger[r*4+3][0]),getPlayerIdByStartnr(berger[r*4+3][1]));
+		}
+		
+	}
+	if (turnamenttype==7)
+	{
+		for (r=0;r<7;r++)
+		{
+			addResult(r+22, getPlayerIdByStartnr(berger[r*4][1]),getPlayerIdByStartnr(berger[r*4][0]));
+			addResult(r+22, getPlayerIdByStartnr(berger[r*4+1][1]),getPlayerIdByStartnr(berger[r*4+1][0]));
+			addResult(r+22, getPlayerIdByStartnr(berger[r*4+2][1]),getPlayerIdByStartnr(berger[r*4+2][0]));
+			addResult(r+22, getPlayerIdByStartnr(berger[r*4+3][1]),getPlayerIdByStartnr(berger[r*4+3][0]));
+		}
+	}
+
+	// Remove walkover in round robin
+	var rid;
+	for (rid=0; rid<resultlist.length; rid++)
+	{
+		if ((resultlist[rid].whiteid==0) || (resultlist[rid].blackid==0))
+			resultlist[rid].trash=1;
+	}
+};
+
+function generateBerger10()
+{
+	var berger=[[1,10],[2,9],[3,8],[4,7],[5,6],
+	            [1,2],[9,3],[8,4],[7,5],[10,6],
+	            [3,1],[2,10],[4,9],[5,8],[6,7],
+	            [1,4],[2,3],[9,5],[8,6],[10,7],
+	            [5,1],[4,2],[3,10],[6,9],[7,8],
+	            [1,6],[2,5],[3,4],[9,7],[10,8],
+	            [7,1],[6,2],[5,3],[4,10],[8,9],
+	            [1,8],[2,7],[3,6],[4,5],[10,9],
+	            [9,1],[8,2],[7,3],[6,4],[5,10]]; 
+	var turnamenttype=jQuery('#t_tournamenttype').val();
+	var r;
+	for (r=0;r<9;r++)
+	{
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5][0]),getPlayerIdByStartnr(berger[r*5][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5+1][0]),getPlayerIdByStartnr(berger[r*5+1][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5+2][0]),getPlayerIdByStartnr(berger[r*5+2][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5+3][0]),getPlayerIdByStartnr(berger[r*5+3][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5+4][0]),getPlayerIdByStartnr(berger[r*5+4][1]));
+	}
+	if (turnamenttype>4)
+	{
+		for (r=0;r<9;r++)
+		{
+			addResult(r+10, getPlayerIdByStartnr(berger[r*5][1]),getPlayerIdByStartnr(berger[r*5][0]));
+			addResult(r+10, getPlayerIdByStartnr(berger[r*5+1][1]),getPlayerIdByStartnr(berger[r*5+1][0]));
+			addResult(r+10, getPlayerIdByStartnr(berger[r*5+2][1]),getPlayerIdByStartnr(berger[r*5+2][0]));
+			addResult(r+10, getPlayerIdByStartnr(berger[r*5+3][1]),getPlayerIdByStartnr(berger[r*5+3][0]));
+			addResult(r+10, getPlayerIdByStartnr(berger[r*5+4][1]),getPlayerIdByStartnr(berger[r*5+4][0]));
+		}
+		
+	}
+	if (turnamenttype>5)
+	{
+		for (r=0;r<9;r++)
+		{
+			addResult(r+19, getPlayerIdByStartnr(berger[r*5][0]),getPlayerIdByStartnr(berger[r*5][1]));
+			addResult(r+19, getPlayerIdByStartnr(berger[r*5+1][0]),getPlayerIdByStartnr(berger[r*5+1][1]));
+			addResult(r+19, getPlayerIdByStartnr(berger[r*5+2][0]),getPlayerIdByStartnr(berger[r*5+2][1]));
+			addResult(r+19, getPlayerIdByStartnr(berger[r*5+3][0]),getPlayerIdByStartnr(berger[r*5+3][1]));
+			addResult(r+19, getPlayerIdByStartnr(berger[r*5+4][0]),getPlayerIdByStartnr(berger[r*5+4][1]));
+		}
+		
+	}
+	if (turnamenttype==7)
+	{
+		for (r=0;r<9;r++)
+		{
+			addResult(r+28, getPlayerIdByStartnr(berger[r*5][1]),getPlayerIdByStartnr(berger[r*5][0]));
+			addResult(r+28, getPlayerIdByStartnr(berger[r*5+1][1]),getPlayerIdByStartnr(berger[r*5+1][0]));
+			addResult(r+28, getPlayerIdByStartnr(berger[r*5+2][1]),getPlayerIdByStartnr(berger[r*5+2][0]));
+			addResult(r+28, getPlayerIdByStartnr(berger[r*5+3][1]),getPlayerIdByStartnr(berger[r*5+3][0]));
+			addResult(r+28, getPlayerIdByStartnr(berger[r*5+4][1]),getPlayerIdByStartnr(berger[r*5+4][0]));
+		}
+	}
+
+	// Remove walkover in round robin
+	var rid;
+	for (rid=0; rid<resultlist.length; rid++)
+	{
+		if ((resultlist[rid].whiteid==0) || (resultlist[rid].blackid==0))
+			resultlist[rid].trash=1;
+	}
+};
+
+function generateBerger12()
+{
+	var berger=[[1,12],[2,11],[3,10],[4,9],[5,8],[6,7],
+	            [1,2],[11,3],[10,4],[9,5],[8,6],[12,7],
+	            [3,1],[2,12],[4,11],[5,10],[6,9],[7,8],
+	            [1,4],[2,3],[11,5],[10,6],[9,7],[12,8],
+	            [5,1],[4,2],[3,12],[6,11],[7,10],[8,9],
+	            [1,6],[2,5],[3,4],[11,7],[10,8],[12,9],
+	            [7,1],[6,2],[5,3],[4,12],[8,11],[9,10],
+	            [1,8],[2,7],[3,6],[4,5],[11,9],[12,10],
+	            [9,1],[8,2],[7,3],[6,4],[5,12],[10,11],
+	            [1,10],[2,9],[3,8],[4,7],[5,6],[12,11],
+	            [11,1],[10,2],[9,3],[8,4],[7,5],[6,12]]; 
+	var turnamenttype=jQuery('#t_tournamenttype').val();
+	var r;
+	for (r=0;r<11;r++)
+	{
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5][0]),getPlayerIdByStartnr(berger[r*5][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5+1][0]),getPlayerIdByStartnr(berger[r*5+1][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5+2][0]),getPlayerIdByStartnr(berger[r*5+2][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5+3][0]),getPlayerIdByStartnr(berger[r*5+3][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*5+4][0]),getPlayerIdByStartnr(berger[r*5+4][1]));
+		addResult(r+1, getPlayerIdByStartnr(berger[r*6+5][0]),getPlayerIdByStartnr(berger[r*6+5][1]));
+	}
+	if (turnamenttype>4)
+	{
+		for (r=0;r<11;r++)
+		{
+			addResult(r+12, getPlayerIdByStartnr(berger[r*5][1]),getPlayerIdByStartnr(berger[r*5][0]));
+			addResult(r+12, getPlayerIdByStartnr(berger[r*5+1][1]),getPlayerIdByStartnr(berger[r*5+1][0]));
+			addResult(r+12, getPlayerIdByStartnr(berger[r*5+2][1]),getPlayerIdByStartnr(berger[r*5+2][0]));
+			addResult(r+12, getPlayerIdByStartnr(berger[r*5+3][1]),getPlayerIdByStartnr(berger[r*5+3][0]));
+			addResult(r+12, getPlayerIdByStartnr(berger[r*5+4][1]),getPlayerIdByStartnr(berger[r*5+4][0]));
+			addResult(r+12, getPlayerIdByStartnr(berger[r*6+5][1]),getPlayerIdByStartnr(berger[r*6+5][0]));
+		}
+		
+	}
+	if (turnamenttype>5)
+	{
+		for (r=0;r<11;r++)
+		{
+			addResult(r+23, getPlayerIdByStartnr(berger[r*5][0]),getPlayerIdByStartnr(berger[r*5][1]));
+			addResult(r+23, getPlayerIdByStartnr(berger[r*5+1][0]),getPlayerIdByStartnr(berger[r*5+1][1]));
+			addResult(r+23, getPlayerIdByStartnr(berger[r*5+2][0]),getPlayerIdByStartnr(berger[r*5+2][1]));
+			addResult(r+23, getPlayerIdByStartnr(berger[r*5+3][0]),getPlayerIdByStartnr(berger[r*5+3][1]));
+			addResult(r+23, getPlayerIdByStartnr(berger[r*5+4][0]),getPlayerIdByStartnr(berger[r*5+4][1]));
+			addResult(r+23, getPlayerIdByStartnr(berger[r*6+5][0]),getPlayerIdByStartnr(berger[r*6+5][1]));
+		}
+		
+	}
+	if (turnamenttype==7)
+	{
+		for (r=0;r<11;r++)
+		{
+			addResult(r+34, getPlayerIdByStartnr(berger[r*5][1]),getPlayerIdByStartnr(berger[r*5][0]));
+			addResult(r+34, getPlayerIdByStartnr(berger[r*5+1][1]),getPlayerIdByStartnr(berger[r*5+1][0]));
+			addResult(r+34, getPlayerIdByStartnr(berger[r*5+2][1]),getPlayerIdByStartnr(berger[r*5+2][0]));
+			addResult(r+34, getPlayerIdByStartnr(berger[r*5+3][1]),getPlayerIdByStartnr(berger[r*5+3][0]));
+			addResult(r+34, getPlayerIdByStartnr(berger[r*5+4][1]),getPlayerIdByStartnr(berger[r*5+4][0]));
+			addResult(r+34, getPlayerIdByStartnr(berger[r*6+5][1]),getPlayerIdByStartnr(berger[r*6+5][0]));
+		}
+	}
+
+	// Remove walkover in round robin
+	var rid;
+	for (rid=0; rid<resultlist.length; rid++)
+	{
+		if ((resultlist[rid].whiteid==0) || (resultlist[rid].blackid==0))
+			resultlist[rid].trash=1;
+	}
+};
