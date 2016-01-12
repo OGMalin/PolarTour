@@ -16,7 +16,9 @@ class PolartourControllerResponse extends JControllerLegacy
 		$result=$model->getPlayerList();
 //		$result=array("test");
 //		echo "<pre>"; var_dump($result); echo "</pre>"; exit;
-		$doc->setMimeEncoding('application/json');
-		echo json_encode($result);
+//		$doc->setMimeEncoding('application/json');
+//		$doc->setMimeEncoding('application/x-www-form-urlencoded');
+		echo new JResponseJson($result);
+//		echo json_encode($result);
 		$app->close();
 	}}

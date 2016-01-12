@@ -349,26 +349,28 @@ function searchPlayerOpen(pid)
 	jQuery.ajax({
 		cache : false,
 		type : 'POST',
+		data : 'option=com_polartour&task=response.getplayerlist&format=json',
 		dataType : 'json',
-		url : responseUrl + 'task=response.getplayerlist&format=json',
+//		url : responseUrl + 'task=response.getplayerlist&format=json',
 		timeout : 5000,
 //		error : function(){alert("Ajax error");},
-		success : function(json) {
+		success : function(json)
+		{
 			if (json)
 			{
 				var i,j=0;
 				fullplayerlist=[];
 				jQuery('#searchplayerselect').empty();
-				for (i=0; i<json.length; i++)
+				for (i=0; i<json.data.length; i++)
 				{
-					if (!inPlayerList(json[i]['lastname'],json[i]['firstname']))
+					if (!inPlayerList(json.data[i]['lastname'],json.data[i]['firstname']))
 					{
 						fullplayerlist[j]= new Object();
-						fullplayerlist[j].firstname=json[i]['firstname'];
-						fullplayerlist[j].lastname=json[i]['lastname'];
-						fullplayerlist[j].club=json[i]['club'];
-						fullplayerlist[j].elo=json[i]['elo'];
-						fullplayerlist[j].born=json[i]['born'];
+						fullplayerlist[j].firstname=json.data[i]['firstname'];
+						fullplayerlist[j].lastname=json.data[i]['lastname'];
+						fullplayerlist[j].club=json.data[i]['club'];
+						fullplayerlist[j].elo=json.data[i]['elo'];
+						fullplayerlist[j].born=json.data[i]['born'];
 						++j;
 					}
 				}
@@ -382,6 +384,11 @@ function searchPlayerOpen(pid)
 				s+="</select>\n";
 				jQuery('#searchplayerselect').append(s);
 			}
+		},
+		error: function (xhr, ajaxOptions, thrownError)
+		{
+	        alert(xhr.status);
+	        alert(thrownError);
 		}
 	});
 };
