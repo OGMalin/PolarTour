@@ -17,17 +17,17 @@ defined('_JEXEC') or die;
  */
 function ScoreCompare($a,$b)
 {
-	if ($a[4] == $b[4])
+	if ($a[4] == $b[4]) // Score
 	{
-		if ($a[5] == $b[5])
+		if ($a[5] == $b[5]) // Tiebreak 1
 		{
-			if ($a[6] == $b[6])
+			if ($a[6] == $b[6]) // Tiebreak 2
 			{
-				if ($a[7] == $b[7])
+				if ($a[7] == $b[7]) // Tiebreak 3
 				{
-					if ($a[8] == $b[8])
+					if ($a[8] == $b[8]) // Tiebreak 4
 					{
-						if ($a[9] == $b[9])
+						if ($a[9] == $b[9]) // Tiebreak 5
 						{
 							return 0;
 						}

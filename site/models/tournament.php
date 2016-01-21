@@ -35,6 +35,7 @@ class PolartourModelTournament extends JModelItem
 		$query->select('*');
 		$query->from('#__polartour_player');
 		$query->where("tournamentid={$this->tournament_id}");
+//		$query->order("startnr desc");
 		$db->setQuery($query);
 		$item["player"]=$db->loadAssocList();
 

@@ -19,7 +19,7 @@ JHtml::_('bootstrap.framework');
 		<?php foreach ($this->items as $item) : ?>
 			<tr<?php if ($item->state==0) echo " class='muted'"?>>
 				<td>
-					<a<?php if ($item->state==0) echo " class='muted'"?> href="<?php echo JRoute::_('index.php?option=com_polartour&view=tournament&id='.(int) $item->id); ?>"><?php echo $this->escape($item->event); ?></a>
+					<a<?php if ($item->state==0) echo " class='muted'"?> href="<?php echo JRoute::_('index.php?option=com_polartour&view=tournament&id='.(int) $item->id); ?>"><?php echo $item->event==''?'*':$this->escape($item->event); ?></a>
 				</td>
 				<td>
 					<?php echo JHTML::_('date', $item->startdate, JText::_('DATE_FORMAT_JS1')); ?>

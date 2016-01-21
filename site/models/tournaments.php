@@ -74,7 +74,7 @@ class PolartourModelTournaments extends JModelList
 		{
 			$query->where("a.enddate <= '" . $enddate . "'");
 		}
-		
+				
 //		$orderCol	= $this->state->get('list.ordering');
 //		$orderDirn	= $this->state->get('list.direction');
 //		$query->order($db->escape($orderCol . ' ' . $orderDirn));

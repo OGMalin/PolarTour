@@ -293,7 +293,7 @@ function removeResult(row)
 	}
 };
 				
-function addResult()
+function addNewResult()
 {
 	var rid = resultlist.length;
 	resultlist[rid] = new Object();
@@ -348,7 +348,7 @@ function searchPlayerOpen(pid)
 	jQuery('#searchplayerrow').val(pid);
 	jQuery.ajax({
 		cache : false,
-		type : 'POST',
+		type : 'GET',
 		data : 'option=com_polartour&task=response.getplayerlist&format=json',
 		dataType : 'json',
 //		url : responseUrl + 'task=response.getplayerlist&format=json',

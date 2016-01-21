@@ -5,5 +5,5 @@ defined('_JEXEC') or die;
 <button id='r_berger' class='btn hide' onclick='generateBerger();return false;'>Generer berger</button>
 <table id="resulttable">
 </table>
-<a href="#" onclick="addResult();return false;">Nytt resultat</a>
+<a href="#" onclick="addNewResult();return false;">Nytt resultat</a>
 </div>
