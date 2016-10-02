@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<fieldset name="component"
+		label="COM_POLARTOUR_COMPONENT_LABEL"
+		description="COM_POLARTOUR_COMPONENT_DESC">
+		<field 
+			description="COM_POLARTOUR_PGNVIEWER_DESC" 
+			label="COM_POLARTOUR_PGNVIEWER_LABEL"
+			name="pgnviewer" 
+			default="http://norbase.sjakk.biz/gameview.php?inter=8" 
+			type="text" 
+			size="255"/>
+	</fieldset>
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			class="inputbox"
+			filter="rules"
+			component="com_polartour"
+			section="component"/>
+	</fieldset>
+</config>

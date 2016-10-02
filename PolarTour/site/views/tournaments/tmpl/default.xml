@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<!-- Translation of these strings are in /administrator/com_polartour/language/nn-NN/nn-NN.com_polartour.sys.ini -->
+	<layout title="COM_POLARTOUR_TOURNAMENTS_VIEW_DEFAULT_TITLE">
+		<message>COM_POLARTOUR_TOURNAMENTS_VIEW_DEFAULT_DESC</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<field
+				name="catid"
+				type="category"
+				extension="com_polartour"
+				class="inputbox"
+				default=""
+				label="COM_POLARTOUR_FIELD_CATID_LABEL"
+				description="COM_POLARTOUR_FIELD_CATID_DESC"
+				required="true"
+			>
+				<option value="0">JOPTION_SELECT_CATEGORY</option>
+			</field>
+			<field name="onlylist" type="radio" class="btn-group"
+				label="COM_POLARTOUR_FIELD_ONLYLIST_LABEL"
+				description="COM_POLARTOUR_FIELD_ONLYLIST_DESC"
+				labelclass="control-label">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="startdate" type="calendar" class="inputbox" size="10"
+				format="%Y-%m-%d"
+				filter="%Y-%m-%d" 
+				label="COM_POLARTOUR_FIELD_STARTDATE_LABEL"
+				description="COM_POLARTOUR_FIELD_STARTDATE_DESC" />
+			<field name="enddate" type="calendar" class="inputbox" size="10"
+				format="%Y-%m-%d"
+				filter="%Y-%m-%d" 
+				label="COM_POLARTOUR_FIELD_ENDDATE_LABEL"
+				description="COM_POLARTOUR_FIELD_ENDDATE_DESC" />
+		</fieldset>
+	</fields>
+</metadata>
+
