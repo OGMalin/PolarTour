@@ -16,7 +16,7 @@ class PolartourModelEdit extends JModelAdmin
 		parent::__construct($config);
 	}
 	
-	public function getItem()
+	public function getItem($pk = null)
 	{
 		$item=array("tournament" => array(), "player" => array(), "result" => array());
 		if ($this->tournament_id==0)
