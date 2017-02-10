@@ -59,7 +59,7 @@ class PolartourModelEdit extends JModelAdmin
 		$query->where("id={$this->tournament_id}");
 		//		var_dump($query); return;
 		$db->setQuery($query);
-	  $item["tournament"]=$db->loadAssoc();
+		$item["tournament"]=$db->loadAssoc();
 		
 		$query=$db->getQuery(true);
 		$query->select('*');
