@@ -78,6 +78,7 @@ class PolartourModelTournaments extends JModelList
 //		$orderCol	= $this->state->get('list.ordering');
 //		$orderDirn	= $this->state->get('list.direction');
 //		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order("a.startdate desc");
 //		echo "<pre>"; echo $query->__toString(); echo "</pre>";
 		
 		return $query;
