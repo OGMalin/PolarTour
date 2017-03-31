@@ -31,12 +31,13 @@ CREATE TABLE `#__polartour_tournament` (
   PRIMARY KEY (`id`),
   KEY `event` (`event`),
   KEY `startdate` (`startdate`),  
-  KEY `enddate` (`enddate`)  
+  KEY `enddate` (`enddate`),  
   KEY `updated` (`updated`)  
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE `#__polartour_player` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `playerid` int(11) NOT NULL,
   `tournamentid` int(11) NOT NULL,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,

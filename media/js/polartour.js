@@ -10,6 +10,7 @@ function init()
 	jQuery('#jform_state').val(state);
 	createPlayerTable();
 	createResultTable();
+	switchTab('tournamenttab');
 };
 
 function switchTab(newtab)
@@ -25,7 +26,6 @@ function switchTab(newtab)
 			jQuery('#tournament').removeClass('hide');
 			break;
 		case 'playertab':
-			createPlayerTable();
 			jQuery('#tournamenttab').removeClass('active');
 			jQuery('#resulttab').removeClass('active');
 			jQuery('#tournament').addClass('hide');
@@ -34,7 +34,6 @@ function switchTab(newtab)
 			jQuery('#player').removeClass('hide');
 			break;
 		case 'resulttab':
-			createResultTable();
 			jQuery('#tournamenttab').removeClass('active');
 			jQuery('#playertab').removeClass('active');
 			jQuery('#player').addClass('hide');
@@ -55,8 +54,7 @@ function createPlayerTable()
 	for (pid=0; pid<playerlist.length;pid++)
 	{
 		tablerow = "<tr id='playerrow"+pid+"'>";
-		tablerow += "<input type='hidden' id='p_trash"+pid+"' name='player["+pid+"][trash]' value='"+playerlist[pid].trash+"' />";
-		tablerow += "<input type='hidden' name='player["+pid+"][id]' value='"+playerlist[pid].id+"' />";
+		tablerow += "<input type='hidden' name='player["+pid+"][playerid]' value='"+playerlist[pid].playerid+"' />";
 		tablerow +=	"<td><input class='input-mini' type='text' id='p_startnr"+pid+"' name='player["+pid+"][startnr]' value='"+playerlist[pid].startnr+"' onchange='updatePlayer("+pid+");return false;' /></td>";
 		tablerow +=	"<td><input class='input-medium' type='text' id='p_firstname"+pid+"' name='player["+pid+"][firstname]' value='"+playerlist[pid].firstname+"' onchange='updatePlayer("+pid+");return false;' /></td>";
 		tablerow +=	"<td><input class='input-medium' type='text' id='p_lastname"+pid+"' name='player["+pid+"][lastname]' value='"+playerlist[pid].lastname+"' onchange='updatePlayer("+pid+");return false;' /></td>";
@@ -67,8 +65,6 @@ function createPlayerTable()
 		tablerow += "<a href='# id='delete' title='Slett spiller' onclick=removePlayer("+pid+");return false;'><i class='icon-delete'></i></a></td>";
 		tablerow += "</tr>";
 		jQuery('#playertable').append(tablerow);
-		if (playerlist[pid].trash==1)
-			jQuery('#playerrow'+pid).addClass('hide');
 	}
 };
 
@@ -84,15 +80,13 @@ function createResultTable()
 	for (rid=0; rid<resultlist.length;rid++)
 	{
 		tablerow = "<tr id='resultrow"+rid+"'>";//+(playerlist[pid].trash==1)?" class='hide'";""+">";
-		tablerow += "<input type='hidden' id='r_trash"+rid+"' name='result["+rid+"][trash]' value='"+resultlist[rid].trash+"' />";
 		tablerow += "<input type='hidden' name='result["+rid+"][id]' value='"+resultlist[rid].id+"' />";
 		tablerow +=	"<td><input class='input-mini' type='text' id='r_round"+rid+"' name='result["+rid+"][round]' value='"+resultlist[rid].round+"' onchange='updateResult("+rid+");return false;' /></td>";
 		tablerow += "<td><select class='input-medium' id='r_white"+rid+"' name='result["+rid+"][whiteid]' onchange='updateResult("+rid+");return false;'>";
 		tablerow += "<option value='0'></option>";
 		for (pid=0;pid<playerlist.length;pid++)
 		{
-			if (playerlist[pid].trash==0)
-				tablerow += "<option value='"+playerlist[pid].id+"'"+(playerlist[pid].id==0?' disabled':'')+">"+getPlayerName(playerlist[pid].id)+"</option>";
+				tablerow += "<option value='"+playerlist[pid].playerid+"'"+(playerlist[pid].playerid==0?' disabled':'')+">"+getPlayerName(playerlist[pid].playerid)+"</option>";
 		}
 		tablerow += "</select></td>";
 		tablerow += "<td><select class='input-medium' id='r_black"+rid+"' name='result["+rid+"][blackid]' onchange='updateResult("+rid+");return false;'>";
@@ -119,8 +113,6 @@ function createResultTable()
 		jQuery('#r_white'+rid).val(resultlist[rid].whiteid);
 		jQuery('#r_black'+rid).val(resultlist[rid].blackid);
 		jQuery('#r_result'+rid).val(resultlist[rid].result);
-		if (resultlist[rid].trash==1)
-			jQuery('#resultrow'+rid).addClass('hide');
 	}
 	if (canGenerateBerger())
 	{
@@ -162,52 +154,13 @@ function updatePlayerList()
 	var pid;
 	for (pid=0; pid< playerlist.length; pid++)
 	{
-		if (playerlist[pid].trash==0)
-		{
-			playerlist[pid].startnr=jQuery('#p_startnr'+pid).val();
-			playerlist[pid].firstname=jQuery('#p_firstname'+pid).val();
-			playerlist[pid].lastname=jQuery('#p_lastname'+pid).val();
-			playerlist[pid].club=jQuery('#p_club'+pid).val();
-			playerlist[pid].elo=jQuery('#p_elo'+pid).val();
-			playerlist[pid].born=jQuery('#p_born'+pid).val();
-		};
+		playerlist[pid].startnr=jQuery('#p_startnr'+pid).val();
+		playerlist[pid].firstname=jQuery('#p_firstname'+pid).val();
+		playerlist[pid].lastname=jQuery('#p_lastname'+pid).val();
+		playerlist[pid].club=jQuery('#p_club'+pid).val();
+		playerlist[pid].elo=jQuery('#p_elo'+pid).val();
+		playerlist[pid].born=jQuery('#p_born'+pid).val();
 	};
-};
-
-function unsavedPlayers()
-{
-	var pid;
-	for (pid=0;pid<playerlist.length;pid++)
-	{
-		if (playerlist[pid].trash!=1)
-			if (playerlist[pid].id==0)
-				return true;
-	};
-	return false;
-};
-
-function numberOfPlayers()
-{
-	var ret=0;
-	var pid;
-	for (pid=0;pid<playerlist.length;pid++)
-	{
-		if (playerlist[pid].trash!=1)
-			++ret;
-	};
-	return ret;
-};
-
-function numberOfResults()
-{
-	var ret=0;
-	var rid;
-	for (rid=0;rid<resultlist.length;rid++)
-	{
-		if (resultlist[rid].trash!=1)
-			++ret;
-	};
-	return ret;
 };
 
 function isBerger()
@@ -218,12 +171,12 @@ function isBerger()
 	return false;
 };
 
-function getPlayerName(id)
+function getPlayerName(playerid)
 {
 	var pid;
 	for (pid=0;pid<playerlist.length;pid++)
 	{
-		if (playerlist[pid].id==id)
+		if (playerlist[pid].playerid==playerid)
 			return playerlist[pid].firstname+' '+playerlist[pid].lastname
 	}
 	return '';
@@ -243,29 +196,79 @@ function getPlayerIdByStartnr(startnr)
 
 function removePlayer(pid)
 {
-	jQuery('#p_trash'+pid).val('1');
-	playerlist[pid].trash=1;
-	jQuery('#playerrow'+pid).addClass('hide');
-	var rid;
-	for (rid=0;rid<resultlist.length;rid++)
+	playerid=playerlist[pid]['playerid'];
+	var newlist=[];
+	newid=0;
+	for (id=0; id<playerlist.length;id++)
 	{
-		if ((resultlist[rid].whiteid==playerlist[pid].id) || (resultlist[rid].blackid==playerlist[pid].id))
-			resultlist[rid].trash=1;
+		if (pid!=id)
+			newlist[newid++]=playerlist[id];
+	}
+	playerlist=newlist;
+	removePlayerFromResult(playerid);
+	createPlayerTable();
+};
+
+function removePlayerFromResult(playerid)
+{
+	if (!playerid)
+		return;
+	for (id=0; id<resultlist.length;id++)
+	{
+		if (resultlist.whiteid==playerid)
+			resultlist.whiteid=0;
+		if (resultlist.blackid==playerid)
+			resultlist.blackid=0;
+		if ((resultlist.whiteid==0) && (resultlist.blackid==0))
+			removeResult(id--);
 	}
 };
-		
+
 function addPlayer()
 {
 	var pid = playerlist.length;
 	playerlist[pid] = new Object();
-	playerlist[pid].trash=0;
-	playerlist[pid].id=0;
+	playerlist[pid].playerid=0;
 	playerlist[pid].startnr=0;
 	playerlist[pid].firstname='';
 	playerlist[pid].lastname='';
 	playerlist[pid].club='';
 	playerlist[pid].elo=0;
 	playerlist[pid].born='0000-00-00';
+	var playerid=1;
+	var id;
+	var found;
+	while (playerlist[pid].playerid==0)
+	{
+		found=false;
+		for (id=0; id < pid; id++)
+		{
+			if (playerlist[id].playerid==playerid)
+			{
+				found=true;
+				break;
+			}
+		}
+		if (!found)
+			playerlist[pid].playerid=playerid;
+		++playerid;
+	}
+	var startnr=1;
+	while (playerlist[pid].startnr==0)
+	{
+		found=false;
+		for (id=0; id < pid; id++)
+		{
+			if (playerlist[id].startnr==startnr)
+			{
+				found=true;
+				break;
+			}
+		}
+		if (!found)
+			playerlist[pid].playerid=startnr;
+		++startnr;
+	}
 	createPlayerTable();
 };
 
@@ -279,26 +282,23 @@ function updatePlayer(pid)
 	playerlist[pid].born=jQuery('#p_born'+pid).val();
 };
 
-function removeResult(row)
+function removeResult(rid)
 {
-	jQuery('#r_trash'+row).val('1');
-	resultlist[row].trash=1;
-	jQuery('#resultrow'+row).addClass('hide');
-	if (canGenerateBerger())
+	var newlist=[];
+	newid=0;
+	for (id=0; id<resultlist.length;id++)
 	{
-		jQuery('#r_berger').removeClass('hide');
-	}else
-	{
-		jQuery('#r_berger').addClass('hide');
+		if (pid!=id)
+			newlist[newid++]=resultlist[id];
 	}
+	resultlist=newlist;
+	createResultTable();
 };
-				
+
 function addNewResult()
 {
 	var rid = resultlist.length;
 	resultlist[rid] = new Object();
-	resultlist[rid].trash=0;
-	resultlist[rid].id=0;
 	resultlist[rid].round=0;
 	resultlist[rid].whiteid=0;
 	resultlist[rid].blackid=0;
@@ -311,8 +311,6 @@ function addResult(round, whiteid, blackid)
 {
 	var rid = resultlist.length;
 	resultlist[rid] = new Object();
-	resultlist[rid].trash=0;
-	resultlist[rid].id=0;
 	resultlist[rid].round=round;
 	resultlist[rid].whiteid=whiteid;
 	resultlist[rid].blackid=blackid;
@@ -334,8 +332,7 @@ function inPlayerList(lastname, firstname)
 	var i;
 	for (i=0;i<playerlist.length;i++)
 	{
-		if ((playerlist[i].trash==0) &&
-			(playerlist[i].lastname==lastname) &&
+		if ((playerlist[i].lastname==lastname) &&
 			(playerlist[i].firstname==firstname))
 			return true;
 	};

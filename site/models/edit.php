@@ -67,7 +67,9 @@ class PolartourModelEdit extends JModelAdmin
 		$query->where("tournamentid={$this->tournament_id}");
 		$db->setQuery($query);
 		$item["player"]=$db->loadAssocList();
-
+		// Fix old version
+		if ($item['player']['playerid']==0)
+			$item['player']['playerid']=$item['player']['id'];
 		$query=$db->getQuery(true);
 		$query->select('*');
 		$query->from('#__polartour_result');
@@ -131,78 +133,47 @@ class PolartourModelEdit extends JModelAdmin
 		$db->setQuery($query);
 		$db->execute();
 		if ((int)$item['tournament']['id']==0)
-			$ret=$db->insertid();
-		else
-			$ret=(int)$item['tournament']['id'];
+			$item['tournament']['id']=$db->insertid();
 
-			// Lagre spillere		
+		// Lagre spillere		
+		$query=$db->getQuery(true);
+		$query->delete('#__polartour_player');
+		$query->where('tournamentid='.(int)$item['tournament']['id']);
+		$db->setQuery($query);
+		$db->execute();
 		foreach ($item['player'] as $player)
 		{
 			$query=$db->getQuery(true);
-			if ((int)$player['trash']==1)
-			{
-				if ((int)$player['id']!=0)
-				{
-					$query=$db->getQuery(true);
-					$query->delete('#__polartour_player');
-					$query->where('id='.(int)$player['id']);
-					$db->setQuery($query);
-					$db->execute();
-				}
-			} else 
-			{
-				if ((int)$player['id']==0)
-				{
-					$query->insert('#__polartour_player');
-					$query->set('tournamentid=' . (int)$item['tournament']['id']);
-				} 	else
-				{
-					$query->update('#__polartour_player');
-					$query->where('id=' . (int)$player['id']);
-				}
-				$query->set('firstname=' . $db->quote($player['firstname']));
-				$query->set('lastname=' . $db->quote($player['lastname']));
-				$query->set('club=' . $db->quote($player['club']));
-				$query->set('elo=' . (int)$player['elo']);
-				$query->set('startnr=' . (int)$player['startnr']);
-				$query->set('born=' . $db->quote($player['born']));
-				$db->setQuery($query);
-				$db->execute();
-			}
+			$query->insert('#__polartour_player');
+			$query->set('tournamentid=' . (int)$item['tournament']['id']);
+			$query->set('playerid=' . (int)$player['playerid']);
+			$query->set('firstname=' . $db->quote($player['firstname']));
+			$query->set('lastname=' . $db->quote($player['lastname']));
+			$query->set('club=' . $db->quote($player['club']));
+			$query->set('elo=' . (int)$player['elo']);
+			$query->set('startnr=' . (int)$player['startnr']);
+			$query->set('born=' . $db->quote($player['born']));
+			$db->setQuery($query);
+			$db->execute();
 		}
-			// Lagre resultater		
+		// Lagre resultater		
+		$query=$db->getQuery(true);
+		$query->delete('#__polartour_result');
+		$query->where('tournamentid='.(int)$item['tournament']['id']);
+		$db->setQuery($query);
+		$db->execute();
 		foreach ($item['result'] as $result)
 		{
 			$query=$db->getQuery(true);
-			if ((int)$result['trash']==1)
-			{
-				if ((int)$result['id']!=0)
-				{
-					$query=$db->getQuery(true);
-					$query->delete('#__polartour_result');
-					$query->where('id='.(int)$result['id']);
-					$db->setQuery($query);
-					$db->execute();
-				}
-			} else 
-			{
-				if ((int)$result['id']==0)
-				{
-					$query->insert('#__polartour_result');
-					$query->set('tournamentid=' . (int)$item['tournament']['id']);
-				} 	else
-				{
-					$query->update('#__polartour_result');
-					$query->where('id=' . (int)$result['id']);
-				}
-				$query->set('whiteid=' . (int)$result['whiteid']);
-				$query->set('blackid=' . (int)$result['blackid']);
-				$query->set('round=' . (int)$result['round']);
-				$query->set('result=' . (int)$result['result']);
-				$query->set('game=' . (int)$result['game']);
-				$db->setQuery($query);
-				$db->execute();
-			}
+			$query->insert('#__polartour_result');
+			$query->set('tournamentid=' . (int)$item['tournament']['id']);
+			$query->set('whiteid=' . (int)$result['whiteid']);
+			$query->set('blackid=' . (int)$result['blackid']);
+			$query->set('round=' . (int)$result['round']);
+			$query->set('result=' . (int)$result['result']);
+			$query->set('game=' . (int)$result['game']);
+			$db->setQuery($query);
+			$db->execute();
 		}
 		return $ret;
 	}
